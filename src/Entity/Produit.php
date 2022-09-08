@@ -36,6 +36,9 @@ class Produit
     #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'produit')]
     private Collection $paniers;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -173,6 +176,18 @@ class Produit
         if ($this->paniers->removeElement($panier)) {
             $panier->removeProduit($this);
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
