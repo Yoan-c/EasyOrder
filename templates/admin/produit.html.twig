@@ -1,0 +1,13 @@
+{% extends 'template.html.twig'%}
+
+{% block body %}
+
+{% if tabProduits is empty%}
+La liste des produits dans la base de donnée est vide
+{% else %}
+{% for produit in tabProduits %}
+produit {{produit.label}}
+quantité {{produit.quantity}}
+{% endfor %}
+{% endif %}
+{% endblock %}

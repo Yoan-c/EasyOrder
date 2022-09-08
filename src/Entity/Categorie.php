@@ -44,7 +44,7 @@ class Categorie
     }
 
     /**
-     * @return Collection<int, produit>
+     * @return Collection<int, Produit>
      */
     public function getProduit(): Collection
     {
@@ -65,5 +65,10 @@ class Categorie
         $this->produit->removeElement($produit);
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nom;
     }
 }
