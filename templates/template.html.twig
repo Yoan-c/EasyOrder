@@ -7,13 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{asset('assets/css/normalize.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/styles.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/css/styles-responsive.css')}}" rel="stylesheet" />
     <title>{% block title %}{% endblock %}</title>
 </head>
 
 <body>
     <header>
         <div class="logo">
-            <a href="#"> Logo</a>
+            <a href="#"> <img src="{{asset('assets/images/logo_blanc.png')}}" alt="imgLogo" class="imgLogo" />
+            </a>
         </div>
         <div class="bgSearch">
             <select class="selectCategorie" name="categorie" id="idCategorie">
@@ -27,12 +29,36 @@
             </select>
             <input class="search" type="text" name="search" placeholder="Rechercher" />
         </div>
-        <div class="menu">Btn</div>
+        <div class="menu">
+            <img class="imgMenu" src="{{asset('assets/images/menu-responsive.png')}}" alt="image menu" />
+            <div class="nav">
+                <div class="nav-user">
+                    <div class="infoUser">Bienvenue Jean-Francois</div>
+                </div>
+                <div class="nav-site">
+                    <div class="btnMenuStyle">
+                        <a href="#">s'inscrire</a>
+                    </div>
+
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div class="btnMenuStyle">
+                        <a href="{{ path('app_logout') }}">se déconnecter</a>
+                    </div>
+                    {% else %}
+                    <div class="btnMenuStyle">
+                        <a href="{{ path('app_login') }}">se connecter</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
     </header>
     {% block body %}
 
 
+    {% endblock %}
+    {% block javascripts %}
     {% endblock %}
 
 </body>

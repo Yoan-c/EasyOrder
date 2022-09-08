@@ -23,7 +23,7 @@ class Commande
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\ManyToMany(targetEntity: produit::class, inversedBy: 'commandes')]
+    #[ORM\ManyToMany(targetEntity: Produit::class, inversedBy: 'commandes')]
     private Collection $produit;
 
     public function __construct()
@@ -68,7 +68,7 @@ class Commande
         return $this->produit;
     }
 
-    public function addProduit(produit $produit): self
+    public function addProduit(Produit $produit): self
     {
         if (!$this->produit->contains($produit)) {
             $this->produit->add($produit);
@@ -77,7 +77,7 @@ class Commande
         return $this;
     }
 
-    public function removeProduit(produit $produit): self
+    public function removeProduit(Produit $produit): self
     {
         $this->produit->removeElement($produit);
 

@@ -18,7 +18,7 @@ class Panier
     #[ORM\OneToOne(mappedBy: 'panier', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
-    #[ORM\ManyToMany(targetEntity: produit::class, inversedBy: 'paniers')]
+    #[ORM\ManyToMany(targetEntity: Produit::class, inversedBy: 'paniers')]
     private Collection $produit;
 
     public function __construct()

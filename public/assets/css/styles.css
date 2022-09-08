@@ -2,6 +2,10 @@ body {
     font-size: 10px;
 }
 
+/*
+    HEADER
+*/
+
 header {
     background-color: black;
     color: white;
@@ -12,14 +16,11 @@ header {
 }
 
 .logo {
-    font-size: 32px;
-    margin: auto 0 auto 0;
+    margin: 50px 0 auto 0;
 }
 
-.logo>a {
-    text-decoration: none;
-    color: white;
-
+.imgLogo {
+    width: 100px;
 }
 
 .logo>a :hover {
@@ -28,13 +29,15 @@ header {
 
 .bgSearch {
     background-color: white;
-    margin-top: 55px;
+    margin-top: 54px;
     width: 192px;
-    height: 15px;
+    height: 16px;
+    border-radius: 0 5px 5px 0;
 }
 
 #idCategorie {
     border: none;
+    padding-top: 2px;
 }
 
 .search {
@@ -42,5 +45,14 @@ header {
 }
 
 .menu {
-    margin-top: 55px;
+    margin-top: 50px;
+    position: relative;
+}
+
+.imgMenu {
+    width: 25px;
+}
+
+.nav {
+    display: none;
 }
