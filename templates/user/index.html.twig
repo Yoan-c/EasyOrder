@@ -1,0 +1,55 @@
+{% extends 'templateAdmin.html.twig' %}
+
+{% block title %}Liste des utilisateurs {% endblock %}
+{% block pageTitle %}
+Liste des utilisateurs
+{% endblock %}
+{% block body %}
+
+<div class="row mt-2">
+    {% for user in users %}
+    <div class="card ms-2 mt-2" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{user.nom}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ user.nom}} {{ user.prenom}}</h6>
+            <p class="card-text">date de naissance :
+                {% if user.dateNaissance is defined %}
+                {{user.dateNaissance |date("m/d/Y", "Europe/Paris")}}
+                {% endif %}
+            </p>
+            <p class="card-text">Adresse :
+                {% if user.adresse is defined %}
+                {{user.adresse}}
+                {% endif %}
+            </p>
+            <p class="card-text">Ville :
+                {% if user.ville is defined %}
+                {{user.ville}}
+                {% endif %}
+            </p>
+            <p class="card-text">Code postal :
+                {% if user.codePostal is defined %}
+                {{user.codePostal}}
+                {% endif %}
+            </p>
+            <p class="card-text">Ville :
+                {% if user.ville is defined %}
+                {{user.ville}}
+                {% endif %}
+            </p>
+            <a href="{{ path('app_user_edit', {id: user.id}) }}" class="card-link">Détail</a>
+            <a href="{{ path('app_user_del', {id: user.id}) }}" class="card-link">Supprimer</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
+{% endblock %}

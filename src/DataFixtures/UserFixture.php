@@ -7,10 +7,11 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserFixture extends Fixture
+class UserFixture extends Fixture implements FixtureGroupInterface
 {
     public function __construct(private UserPasswordHasherInterface $hasher)
     {
@@ -18,7 +19,7 @@ class UserFixture extends Fixture
     public function load(ObjectManager $manager): void
     {
         $fake = Factory::create('fr_FR');
-        $admin = new User();
+        /*  $admin = new User();
         $panierAdmin = new Panier();
         $admin->setPanier($panierAdmin);
         $admin->setEmail("admin@gmail.com");
@@ -47,14 +48,14 @@ class UserFixture extends Fixture
         $user->setCodePostal("78710");
         $user->setDateNaissance($fake->dateTimeBetween('-90 year', '-18 years'));
         $manager->persist($user);
-
-        for ($i = 0; $i < 10; $i++) {
+*/
+        for ($i = 0; $i < 100; $i++) {
             $user = new User();
             $panierUser = new Panier();
             $user->setPanier($panierUser);
             $user->setEmail($fake->email);
             $user->setPassword($this->hasher->hashPassword($user, 'test'));
-            $user->setNom($fake->name);
+            $user->setNom($fake->lastName);
             $user->setPrenom($fake->firstName);
             $user->setAdresse($fake->address);
             $user->setVille($fake->city);
@@ -69,5 +70,10 @@ class UserFixture extends Fixture
         // $manager->persist($product);
 
         $manager->flush();
+    }
+
+    public static function getGroups(): array
+    {
+        return ['user'];
     }
 }
