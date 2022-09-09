@@ -44,26 +44,21 @@
 
     .menu {
         position: relative;
-        width: 350px;
-        margin-left: 25px;
+        width: 280px;
+        margin-left: 50px;
     }
 
     .imgMenu {
         display: none;
     }
 
-    .nav {
+    .actionHeader {
         margin-top: 8px;
         display: flex;
         justify-content: space-between;
     }
 
-    .nav-user {
-        color: #BD7201;
-        width: 200px;
-    }
-
-    .nav-site {
+    .actionHeader-site {
         display: flex;
         width: 250px;
         justify-content: flex-end;
@@ -78,40 +73,18 @@
         bottom: 5px;
         color: #BD7201;
         background: white;
-        width: 80px;
-        text-align: center;
     }
 
     .btnMenuStyle>a {
         text-decoration: none;
         color: #BD7201;
     }
-
-    /*   .connexion,
-    .inscription {
-        margin-left: 15px;
-        border: 2px solid #BD7201;
-        border-radius: 8px;
-        padding: 5px;
-        position: relative;
-        bottom: 5px;
-        color: #BD7201;
-        background: white;
-        width: 60px;
-        text-align: center;
-    }
-
-    .connexion>a,
-    .inscription>a {
-        text-decoration: none;
-        color: #BD7201;
-    }*/
 }
 
-@media screen and (min-width: 1024px) {}
-
-@media screen and (min-width: 1072px) {
+@media screen and (min-width: 1024px) {
     body {
-        background: yellow;
+        background: green;
     }
 }
+
+@media screen and (min-width: 1280px) {}

@@ -3,6 +3,7 @@
     "bootstrap": "^5.2.1"
   },
   "dependencies": {
-    "jquery": "^3.6.1"
+    "jquery": "^3.6.1",
+    "select2": "^4.1.0-rc.0"
   }
 }

@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{asset('assets/css/normalize.css')}}" rel="stylesheet" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="{{asset('assets/css/styles.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/styles-responsive.css')}}" rel="stylesheet" />
+    <link href="{{asset('node_modules/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
     <title>{% block title %}{% endblock %}</title>
 </head>
 
@@ -32,11 +34,11 @@
         </div>
         <div class="menu">
             <img class="imgMenu" src="{{asset('assets/images/menu-responsive.png')}}" alt="image menu" />
-            <div class="nav">
-                <div class="nav-user">
+            <div class="actionHeader">
+                <div class="actionHeader-user">
                     <div class="infoUser">Bienvenue Jean-Francois</div>
                 </div>
-                <div class="nav-site">
+                <div class="actionHeader-site">
                     <div class="btnMenuStyle">
                         <a href="#">s'inscrire</a>
                     </div>
@@ -74,6 +76,11 @@
     {% block body %}
 
     {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="{{asset('node_modules/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{asset('node_modules/select2/dist/js/select2.min.js')}}"></script>
+
     {% block javascripts %}
     {% endblock %}
 

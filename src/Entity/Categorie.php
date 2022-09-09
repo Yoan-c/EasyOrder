@@ -18,12 +18,13 @@ class Categorie
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
 
-    #[ORM\ManyToMany(targetEntity: Produit::class, inversedBy: 'categories')]
-    private Collection $produit;
+    #[ORM\ManyToMany(targetEntity: Produit::class, mappedBy: 'categories')]
+    private Collection $produits;
+
 
     public function __construct()
     {
-        $this->produit = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -43,18 +44,24 @@ class Categorie
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->nom;
+    }
+
     /**
      * @return Collection<int, Produit>
      */
-    public function getProduit(): Collection
+    public function getProduits(): Collection
     {
-        return $this->produit;
+        return $this->produits;
     }
 
     public function addProduit(Produit $produit): self
     {
-        if (!$this->produit->contains($produit)) {
-            $this->produit->add($produit);
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->addCategory($this);
         }
 
         return $this;
@@ -62,13 +69,10 @@ class Categorie
 
     public function removeProduit(Produit $produit): self
     {
-        $this->produit->removeElement($produit);
+        if ($this->produits->removeElement($produit)) {
+            $produit->removeCategory($this);
+        }
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->nom;
     }
 }

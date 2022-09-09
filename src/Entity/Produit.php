@@ -6,6 +6,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -16,19 +17,20 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3)]
     private ?string $label = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?float $prix = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?int $quantity = null;
-
-    #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'produit')]
-    private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: Commande::class, mappedBy: 'produit')]
     private Collection $commandes;
@@ -39,11 +41,15 @@ class Produit
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'produits')]
+    private Collection $categories;
+
+
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->paniers = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,32 +105,6 @@ class Produit
         return $this;
     }
 
-    /**
-     * @return Collection<int, Categorie>
-     */
-    public function getCategories(): Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory(Categorie $category): self
-    {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-            $category->addProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Categorie $category): self
-    {
-        if ($this->categories->removeElement($category)) {
-            $category->removeProduit($this);
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Commande>
@@ -188,6 +168,30 @@ class Produit
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Categorie>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categorie $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categorie $category): self
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }

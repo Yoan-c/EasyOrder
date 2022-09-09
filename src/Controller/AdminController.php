@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Produit;
 use App\Entity\User;
 use App\Form\ProduitType;
@@ -11,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Service\UploaderService;
 
 #[Route('/admin')]
 class AdminController extends AbstractController
@@ -46,12 +49,13 @@ class AdminController extends AbstractController
         ]);
     }
     #[
-        Route('/edit/produits/{id?0}', name: 'app_admin_products_add'),
+        Route('/edit/produits/{id?0}', name: 'app_admin_products_edit'),
         IsGranted('ROLE_ADMIN')
     ]
-    public function addProduct(
+    public function editProduct(
         ManagerRegistry $doctrine,
         Request $req,
+        UploaderService $uploader,
         Produit $produit = null
     ): Response {
 
@@ -63,16 +67,26 @@ class AdminController extends AbstractController
         $form = $this->createForm(ProduitType::class, $produit);
         // pre remplis le formulaire
         $form->handleRequest($req);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $directory = $this->getParameter('produits_directory');
+                $produit->setImage($uploader->uploadFile($image, $directory));
+            }
+
             $manager = $doctrine->getManager();
             $manager->persist($produit);
             $manager->flush();
+
+            $this->addFlash('success', $produit->getLabel() . " " . " a été ajouté ");
+            return $this->redirectToRoute("app_admin_products");
+        } else {
+            //$this->addFlash("success", "Message reussi a passer avec succes");
+            return $this->render('admin/addProduit.html.twig', [
+                "formProduct" => $form->createView()
+            ]);
         }
-
-
-        //$this->addFlash("success", "Message reussi a passer avec succes");
-        return $this->render('admin/addProduit.html.twig', [
-            "formProduct" => $form->createView()
-        ]);
     }
 }

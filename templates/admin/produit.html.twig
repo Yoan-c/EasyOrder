@@ -8,6 +8,7 @@ La liste des produits dans la base de donnée est vide
 {% for produit in tabProduits %}
 produit {{produit.label}}
 quantité {{produit.quantity}}
+<a href="{{ path('app_admin_products_edit', {id: produit.id})}}"> editer</a>
 {% endfor %}
 {% endif %}
 {% endblock %}
