@@ -15,7 +15,7 @@ class UploaderService
         private SluggerInterface $slugger
     ) {
     }
-    public function uploadFile(UploadedFile $file, string $directoryFolder, String $lastFilename)
+    public function uploadFile(UploadedFile $file, string $directoryFolder, String $lastFilename = null)
     {
 
         if ($lastFilename) {

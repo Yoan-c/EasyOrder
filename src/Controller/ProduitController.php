@@ -87,4 +87,23 @@ class ProduitController extends AbstractController
             ]);
         }
     }
+    #[
+        Route('/delete/produits/{id?0}', name: 'app_admin_products_del'),
+        IsGranted('ROLE_ADMIN')
+    ]
+    public function deleteProduct(
+        ManagerRegistry $doctrine,
+        Produit $produit = null
+    ): Response {
+
+        if ($produit) {
+            $manager = $doctrine->getManager();
+            $manager->remove($produit);
+            $manager->flush();
+            $this->addFlash('success', $produit->getLabel() . " " . " a été supprimé ");
+        } else {
+            $this->addFlash('Error', "Le produit n'a été supprimé ");
+        }
+        return $this->redirectToRoute("app_admin");
+    }
 }

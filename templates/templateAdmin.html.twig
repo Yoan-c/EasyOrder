@@ -86,14 +86,15 @@
                         <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link " href="{{ path('app_admin_products') }}">
-                                    Listes des produits
-                                </a>
                                 {% if is_granted('ROLE_ADMIN') %}
                                 <a class="nav-link collapsed" href="{{ path('app_admin_products_edit') }}">
                                     Ajouter un produit
                                 </a>
                                 {% endif %}
+                                <a class="nav-link " href="{{ path('app_admin_products') }}">
+                                    Listes des produits
+                                </a>
+
                             </nav>
                         </div>
                     </div>

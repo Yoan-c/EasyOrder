@@ -8,9 +8,6 @@ Liste des produits
 La liste des produits dans la base de donnée est vide
 {% else %}
 {% for produit in tabProduits %}
-produit {{produit.label}}
-quantité {{produit.quantity}}
-<a href="{{ path('app_admin_products_edit', {id: produit.id})}}"> editer</a>
 {% endfor %}
 <div class="row ">
     {% for produit in tabProduits %}
@@ -21,6 +18,9 @@ quantité {{produit.quantity}}
             <h5 class="card-title">{{produit.label}}</h5>
             <p class="card-text">{{produit.description}}</p>
             <a href="{{ path('app_admin_products_edit', {id: produit.id})}}"> editer</a>
+            <a href="{{ path('app_admin_products_del', {id: produit.id})}}" class="card-link">
+                Supprimer
+            </a>
         </div>
     </div>
     {% endfor %}
