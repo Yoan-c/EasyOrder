@@ -1,0 +1,29 @@
+{% extends 'templateAdmin.html.twig'%}
+{% block pageTitle %}
+Liste des produits
+{% endblock %}
+{% block body %}
+
+{% if tabProduits is empty%}
+La liste des produits dans la base de donnée est vide
+{% else %}
+{% for produit in tabProduits %}
+produit {{produit.label}}
+quantité {{produit.quantity}}
+<a href="{{ path('app_admin_products_edit', {id: produit.id})}}"> editer</a>
+{% endfor %}
+<div class="row ">
+    {% for produit in tabProduits %}
+    <div class="card ms-2" style="width: 18rem;">
+        <img src="{{asset('/uploads/produits/') ~ produit.image | defaultImage}}" class="card-img-top "
+            alt="image produit">
+        <div class="card-body">
+            <h5 class="card-title">{{produit.label}}</h5>
+            <p class="card-text">{{produit.description}}</p>
+            <a href="{{ path('app_admin_products_edit', {id: produit.id})}}"> editer</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

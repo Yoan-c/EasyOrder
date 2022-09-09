@@ -1,0 +1,27 @@
+{% extends 'templateAdmin.html.twig'%}
+{% block pageTitle %}
+Liste des catégories
+{% endblock %}
+{% block body %}
+
+{% if tabCategorie is empty%}
+La liste des produits dans la base de donnée est vide
+{% else %}
+<div class="row ">
+    {% for categorie in tabCategorie %}
+    <div class="card ms-2 mt-2" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{categorie.nom}}</h5>
+            <a href="{{ path('app_admin_categories_del', {id: categorie.id})}}" class="card-link">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('app_admin_categories_edit', {id: categorie.id})}}" class="card-link">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

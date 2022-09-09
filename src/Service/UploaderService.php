@@ -6,14 +6,21 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Filesystem\Filesystem;
 
 class UploaderService
 {
-    public function __construct(private SluggerInterface $slugger)
-    {
+    public function __construct(
+        private SluggerInterface $slugger
+    ) {
     }
-    public function uploadFile(UploadedFile $file, string $directoryFolder)
+    public function uploadFile(UploadedFile $file, string $directoryFolder, String $lastFilename)
     {
+
+        if ($lastFilename) {
+            $this->deleteFile($lastFilename, $directoryFolder);
+        }
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         // this is needed to safely include the file name as part of the URL
         $safeFilename = $this->slugger->slug($originalFilename);
@@ -29,5 +36,16 @@ class UploaderService
             // ... handle exception if something happens during file upload
         }
         return $newFilename;
+    }
+
+    public function deleteFile(string $lastFilename, string $directoryFolder)
+    {
+        $filesystem = new Filesystem();
+
+        try {
+            $filesystem->remove([$directoryFolder . "/" . $lastFilename]);
+        } catch (FileException $exception) {
+            echo "An error occurred while creating your directory ";
+        }
     }
 }

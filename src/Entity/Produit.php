@@ -42,6 +42,7 @@ class Produit
     private ?string $image = null;
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'produits')]
+    #[ORM\JoinTable(name: "produit_categorie")]
     private Collection $categories;
 
 
@@ -184,6 +185,7 @@ class Produit
     {
         if (!$this->categories->contains($category)) {
             $this->categories->add($category);
+            $category->addProduit($this);
         }
 
         return $this;
@@ -194,5 +196,10 @@ class Produit
         $this->categories->removeElement($category);
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->label;
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Categorie;
 use App\Entity\Produit;
-use App\Entity\User;
 use App\Form\ProduitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,11 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Service\UploaderService;
 
 #[Route('/admin')]
-class AdminController extends AbstractController
+class ProduitController extends AbstractController
 {
     #[Route('/', name: 'app_admin')]
     public function index(): Response
@@ -28,7 +25,7 @@ class AdminController extends AbstractController
         }
 
 
-        return $this->render('admin/index.html.twig', [
+        return $this->render('produit/index.html.twig', [
             'controller_name' => 'AdminController',
         ]);
     }
@@ -43,7 +40,7 @@ class AdminController extends AbstractController
         $tabProduits = $productRepository->findAll();
 
         //$this->addFlash("success", "Message reussi a passer avec succes");
-        return $this->render('admin/produit.html.twig', [
+        return $this->render('produit/produit.html.twig', [
             'test' => 'AdminController',
             "tabProduits" => $tabProduits
         ]);
@@ -67,13 +64,13 @@ class AdminController extends AbstractController
         $form = $this->createForm(ProduitType::class, $produit);
         // pre remplis le formulaire
         $form->handleRequest($req);
-
+        $linkImage = $produit->getImage();
         if ($form->isSubmitted() && $form->isValid()) {
 
             $image = $form->get('image')->getData();
             if ($image) {
                 $directory = $this->getParameter('produits_directory');
-                $produit->setImage($uploader->uploadFile($image, $directory));
+                $produit->setImage($uploader->uploadFile($image, $directory, $produit->getImage()));
             }
 
             $manager = $doctrine->getManager();
@@ -84,8 +81,9 @@ class AdminController extends AbstractController
             return $this->redirectToRoute("app_admin_products");
         } else {
             //$this->addFlash("success", "Message reussi a passer avec succes");
-            return $this->render('admin/addProduit.html.twig', [
-                "formProduct" => $form->createView()
+            return $this->render('produit/addProduit.html.twig', [
+                "formProduct" => $form->createView(),
+                "produitImg" => $linkImage
             ]);
         }
     }

@@ -19,6 +19,7 @@ class Categorie
     private ?string $nom = null;
 
     #[ORM\ManyToMany(targetEntity: Produit::class, mappedBy: 'categories')]
+    #[ORM\JoinTable(name: "produit_categorie")]
     private Collection $produits;
 
 
