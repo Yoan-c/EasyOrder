@@ -13,6 +13,7 @@ header {
     height: 120px;
     display: flex;
     justify-content: space-around;
+    z-index: 1;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -43,7 +44,7 @@ input[type=number] {
     background-color: white;
     margin-top: 54px;
     width: 192px;
-    height: 16px;
+    height: 18px;
     border-radius: 0 5px 5px 0;
 }
 
@@ -54,6 +55,7 @@ input[type=number] {
 
 .search {
     border: none;
+    width: 100px;
 }
 
 .menu {
@@ -65,8 +67,74 @@ input[type=number] {
     width: 25px;
 }
 
-.actionHeader {
+.btnMenuStyle>a {
+    text-decoration: none;
+}
+
+.actionHeader-userMenu {
     display: none;
+}
+
+.actionHeader,
+.btnMenuStyle>a,
+.actionHeader-site {
+    display: block;
+    background: black;
+    color: #BD7201;
+    margin-top: 5px;
+    padding: 2px;
+}
+
+.actionHeader {
+    position: fixed;
+    left: -300px;
+    top: 110px;
+    width: 200px;
+    padding-left: 25px;
+    height: 90px;
+}
+
+.slide-in,
+.slide-out {
+
+    animation-duration: 1s;
+    animation-timing-function: linear;
+}
+
+.slide-in {
+    animation-name: slidein;
+    left: 0px;
+}
+
+/* 
+    animation
+*/
+@keyframes slidein {
+    from {
+        left: -300px;
+    }
+
+    to {
+        left: 0px;
+    }
+}
+
+.slide-out {
+    animation-name: slideout;
+    left: -300px;
+}
+
+/* 
+    animation
+*/
+@keyframes slideout {
+    from {
+        left: 0px;
+    }
+
+    to {
+        left: -300px;
+    }
 }
 
 /*
@@ -263,8 +331,10 @@ main {
 
 
 
-.btnModal:hover {
+.btnModal:hover,
+.btnMenuStyle:hover,
+.btnMenuStyle:hover>a {
     background: #BD7201;
     color: white;
-    border-radius: 5px;
+    border-radius: 8px;
 }

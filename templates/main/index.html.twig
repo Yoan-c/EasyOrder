@@ -60,8 +60,11 @@
             <span id="totalPrice" class="totalPrice"></span>
         </div>
         <hr>
-        <button type="submit" class="btnModal">Mettre au panier</button>
-
+        {% if app.user is not null %}
+        <button type="submit" class="btnModal" id="btnPanier">Mettre au panier</button>
+        {% else %}
+        <button type="submit" class="btnModal" id="connexion">Se connecter</button>
+        {% endif %}
     </div>
 
 </div>
@@ -69,31 +72,20 @@
 
 {% block javascripts %}
 <script>
-    /*   $(document).ready(function () {
-   
-           var modal = document.getElementById("myModal");
-           var btn = document.getElementById("activeModal");
-           var span = document.getElementsByClassName("close")[0];
-           btn.onclick = function () {
-               modal.style.display = "block";
-           }
-   
-           // When the user clicks on <span> (x), close the modal
-           span.onclick = function () {
-               modal.style.display = "none";
-           }
-   
-       });
-      */
     let modal = document.getElementById("myModal");
     let imgModal = document.getElementById("imgModal");
     let containProduit = document.getElementById("containProduit");
     let quantityProduct = document.getElementById("quantityProduct");
+    let connexion = document.getElementById("connexion");
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function () {
         modal.style.display = "none";
 
     }
+    if (connexion)
+        connexion.onclick = () => {
+            document.location = "/login";
+        }
     let calculTotal = function (e) {
         let qty = quantityProduct.value;
         let pProduct = document.getElementById("pProduct").textContent;
@@ -131,9 +123,6 @@
         p.textContent = desc;
         descProduct.appendChild(p);
         modal.style.display = "block";
-        console.log("data " + label + " " + desc + " " + qty + " " + price + " " + url);
-
-
     }
 </script>
 {% endblock %}

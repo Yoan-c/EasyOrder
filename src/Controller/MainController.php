@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Produit;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,8 +17,11 @@ class MainController extends AbstractController
     {
         $productRepository = $doctrine->getRepository(Produit::class);
         $products = $productRepository->findAll();
+        $categorieRepository = $doctrine->getRepository(Categorie::class);
+        $categories = $categorieRepository->findAll();
         return $this->render('main/index.html.twig', [
             'produits' => $products,
+            'categories' => $categories,
         ]);
     }
 }

@@ -29,6 +29,7 @@
 
     .logo {
         margin-top: 40px;
+        justify-self: center;
     }
 
     .imgLogo {
@@ -39,7 +40,8 @@
         margin-top: 54px;
         width: 350px;
         border-radius: 0 5px 5px 0;
-        height: 20px;
+        height: 22px;
+        justify-self: center;
     }
 
     .search {
@@ -60,22 +62,29 @@
         background: green;
     }
 
+    /*
+        header
+    */
     header {
-        justify-content: flex-start;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "logo search search info menu";
+
     }
 
     .logo {
-        margin-left: 25px;
+        grid-area: logo;
     }
 
     .bgSearch {
-        margin-left: 25px;
+        grid-area: search;
     }
 
     .menu {
-        position: relative;
-        width: 280px;
-        margin-left: 50px;
+        grid-area: menu;
+        margin: auto;
     }
 
     .imgMenu {
@@ -83,31 +92,46 @@
     }
 
     .actionHeader {
-        margin-top: 8px;
-        display: flex;
-        justify-content: space-between;
+        position: relative;
+        left: 0;
+        right: 0;
+        top: 0;
+        width: auto;
+        height: auto;
     }
 
     .actionHeader-site {
         display: flex;
-        width: 250px;
-        justify-content: flex-end;
+        margin: 0;
+
     }
 
-    .btnMenuStyle {
-        margin-left: 15px;
-        border: 2px solid #BD7201;
-        border-radius: 8px;
-        padding: 5px;
-        position: relative;
-        bottom: 5px;
+    .actionHeader-user {
+        display: none;
+    }
+
+    .actionHeader-userMenu {
+        display: block;
+        grid-area: info;
         color: #BD7201;
-        background: white;
+        margin-top: 55px;
+        margin-left: 10px;
+    }
+
+
+
+    .btnMenuStyle {
+        border: 1px solid #BD7201;
+        border-radius: 8px;
+        background-color: white;
+        margin: 10px;
+        padding: 5px;
+        width: 120px;
     }
 
     .btnMenuStyle>a {
-        text-decoration: none;
-        color: #BD7201;
+        background-color: white;
+        text-align: center;
     }
 
     /*
