@@ -33,7 +33,7 @@
         </div>
         <div class="actionHeader-userMenu">
             {% if app.user is not null %}
-            <div class="infoUser">Connecter {{ app.user.email }}</div>
+            <div class="infoUser">Bienvenue {{ app.user.email }}</div>
             {% endif %}
         </div>
         <div class="menu">
@@ -41,7 +41,7 @@
             <div class="actionHeader " id="actionHeader">
                 <div class="actionHeader-user">
                     {% if app.user is not null %}
-                    <div class="infoUser">Connecter {{ app.user.email }}</div>
+                    <div class="infoUser">Bienvenue {{ app.user.email }}</div>
                     {% endif %}
                 </div>
                 <div class="actionHeader-site">
@@ -52,15 +52,15 @@
                         <a href="{{ path('app_logout') }}">Voir panier</a>
                     </div>
                     <div class="btnMenuStyle">
-                        <a href="{{ path('app_logout') }}">se déconnecter</a>
+                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
                     </div>
 
                     {% else %}
                     <div class="btnMenuStyle">
-                        <a href="#">s'inscrire</a>
+                        <a href="{{ path('app_register') }}">S'inscrire</a>
                     </div>
                     <div class="btnMenuStyle">
-                        <a href="{{ path('app_login') }}">se connecter</a>
+                        <a href="{{ path('app_login') }}">Se connecter</a>
                     </div>
                     {% endif %}
                 </div>

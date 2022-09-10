@@ -67,9 +67,10 @@ input[type=number] {
     width: 25px;
 }
 
+/*
 .btnMenuStyle {
     border: 1px solid #BD7201;
-}
+}*/
 
 .btnMenuStyle>a {
     text-decoration: none;
@@ -93,7 +94,7 @@ input[type=number] {
     position: fixed;
     left: -300px;
     top: 110px;
-    width: 200px;
+    width: 250px;
     padding-left: 25px;
     height: 90px;
 }
@@ -350,7 +351,8 @@ main {
 /*
     LOGIN
 */
-.centerLogin {
+.centerLogin,
+.containRegister {
     margin: 50px auto;
     max-width: 300px;
 }
