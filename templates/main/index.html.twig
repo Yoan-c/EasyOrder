@@ -3,5 +3,137 @@
 {% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
+<main class="container">
+    <div class="container">
+        <div class="row">
+            {% if produits is defined %}
+            {% for produit in produits %}
+            <div class="containCard"
+                onclick="test( '{{produit.label}}','{{produit.description}}','{{produit.quantity}}','{{produit.prix}}','{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}')">
+                <div class=" containImg" id="containProduit">
+                    <img src="{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}" alt="img produit"
+                        id="imgProduit" />
+                </div>
+                <hr>
+                <div class="infoProduit">
+                    <div class="nomProduct">
+                        {{produit.label}}
+                    </div>
+                    {% if produit.quantity > 0 %}
+                    <div class="stockProd-dispo">
+                        en stock
+                    </div>
+                    {% else %}
+                    <div class="stockProd-indispo">
+                        Indisponible
+                    </div>
+                    {% endif %}
+                    <div class="priceProduct" id="pProduct">
+                        {{produit.prix }} &euro;
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</main>
+<div id="myModal" class="showModal">
 
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="containtModal">
+
+            <div class="imgModal" id="imgModal">
+            </div>
+
+            <div class="labelProductModal" id="labelProductModal"></div>
+            <div class="descProduct scroller" id="descProduct">
+
+            </div>
+            <div class="stockProduct" id="stockProduct"> En stock</div>
+            <label for="quantityProduct" class="quantityModal">quantité :</label>
+            <input type="number" id="quantityProduct" name="quantityProduct" class="quantityProduct" min="1" max="100">
+            <span class="priceProduct"> Prix :</span>
+            <div class="priceModal" id="priceModal"> </div>
+            <span class="totalName"> Total :</span>
+            <span id="totalPrice" class="totalPrice"></span>
+        </div>
+        <hr>
+        <button type="submit" class="btnModal">Mettre au panier</button>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    /*   $(document).ready(function () {
+   
+           var modal = document.getElementById("myModal");
+           var btn = document.getElementById("activeModal");
+           var span = document.getElementsByClassName("close")[0];
+           btn.onclick = function () {
+               modal.style.display = "block";
+           }
+   
+           // When the user clicks on <span> (x), close the modal
+           span.onclick = function () {
+               modal.style.display = "none";
+           }
+   
+       });
+      */
+    let modal = document.getElementById("myModal");
+    let imgModal = document.getElementById("imgModal");
+    let containProduit = document.getElementById("containProduit");
+    let quantityProduct = document.getElementById("quantityProduct");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+        modal.style.display = "none";
+
+    }
+    let calculTotal = function (e) {
+        let qty = quantityProduct.value;
+        let pProduct = document.getElementById("pProduct").textContent;
+
+        let total = qty * parseInt(pProduct);
+        let totalPrice = document.getElementById("totalPrice");
+        totalPrice.textContent = total + "\u20ac"
+        console.log("valeur " + pProduct)
+    }
+    quantityProduct.onchange = calculTotal
+    function test(label, desc, qty, price, url) {
+
+        let labelProductModal = document.getElementById("labelProductModal")
+        let priceModal = document.getElementById("priceModal");
+        let stockProduct = document.getElementById("stockProduct");
+        let descProduct = document.getElementById("descProduct");
+        let totalPrice = document.getElementById("totalPrice");
+        let img = document.createElement("img");
+
+        imgModal.innerHTML = "";
+        img.src = url;
+        img.alt = "image produit";
+        img.setAttribute('class', "imgModalJs");
+        imgModal.appendChild(img);
+
+        labelProductModal.textContent = label;
+        totalPrice.textContent = price + '\u20ac'
+        priceModal.textContent = price + '\u20ac';
+        if (parseInt(qty) <= 0) {
+            stockProduct.textContent = "Indisponible";
+            stockProduct.style.color = 'red';
+        }
+        descProduct.innerHTML = '';
+        let p = document.createElement('p');
+        p.textContent = desc;
+        descProduct.appendChild(p);
+        modal.style.display = "block";
+        console.log("data " + label + " " + desc + " " + qty + " " + price + " " + url);
+
+
+    }
+</script>
 {% endblock %}

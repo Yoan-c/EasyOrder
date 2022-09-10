@@ -1,3 +1,25 @@
+@media screen and (min-width: 450px) {
+
+    /*
+                MODAL
+            */
+    .containtModal {
+        grid-template-areas:
+            "img header header header"
+            "img desc desc desc"
+            "stock . . ."
+            "namePrice . . price"
+            "quantity . . nb"
+            "total . . totPrice";
+
+    }
+
+    .labelProductModal {
+        justify-self: center;
+    }
+
+}
+
 @media screen and (min-width: 701px) {
 
     body {
@@ -23,6 +45,14 @@
     .search {
         width: 250px;
     }
+
+    .imgModalJs {
+        max-width: 210px;
+        margin-right: 20px;
+    }
+
+
+
 }
 
 @media screen and (min-width: 1000px) {
@@ -78,6 +108,36 @@
     .btnMenuStyle>a {
         text-decoration: none;
         color: #BD7201;
+    }
+
+    /*
+        MODAL
+    */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 100px auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 700px;
+        height: 450px;
+    }
+
+    .containtModal {
+
+        height: 300px;
+
+    }
+
+    .quantityProduct {
+        grid-area: nb;
+        border: none;
+        border-bottom: 1px solid black;
+
+        justify-self: end;
+    }
+
+    .imgModalJs {
+        max-width: 310px;
     }
 }
 
