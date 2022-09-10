@@ -67,6 +67,10 @@ input[type=number] {
     width: 25px;
 }
 
+.btnMenuStyle {
+    border: 1px solid #BD7201;
+}
+
 .btnMenuStyle>a {
     text-decoration: none;
 }
@@ -322,19 +326,41 @@ main {
 }
 
 .btnBase,
-.btnModal {
+.btnModal,
+.btn-primary {
     border: 1px solid #BD7201;
     border-radius: 5px;
     color: #BD7201;
     background: white;
 }
 
-
-
-.btnModal:hover,
 .btnMenuStyle:hover,
-.btnMenuStyle:hover>a {
+.btnMenuStyle:hover>a,
+.btnModal:hover,
+.btn-primary:hover {
     background: #BD7201;
     color: white;
-    border-radius: 8px;
+}
+
+.btnModal:hover,
+.btn-primary:hover {
+    border: 1px solid #BD7201
+}
+
+/*
+    LOGIN
+*/
+.centerLogin {
+    margin: 50px auto;
+    max-width: 300px;
+}
+
+.btn-primary:hover {
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.btn-primary {
+    font-size: 13px;
+    margin-top: 10px;
 }
