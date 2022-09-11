@@ -366,3 +366,11 @@ main {
     font-size: 13px;
     margin-top: 10px;
 }
+
+/*
+    PAGINATION PRODUIT
+*/
+.paginationProduct {
+    position: relative;
+    bottom: 0;
+}

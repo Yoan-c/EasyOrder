@@ -43,13 +43,23 @@ Liste des utilisateurs
     </div>
     {% endfor %}
 </div>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul>
-</nav>
+{% if isPaginated is defined and isPaginated %}
+<div class="row mt-2">
+
+    <nav aria-label="col Page navigation example">
+        <ul class="pagination">
+            {% if page != 1 %} <li class="page-item"><a class="page-link"
+                    href="{{ path('app_user', {page : page-1, nbr: nbr})}}">Précédent</a></li>
+            {% endif %}
+            {% for i in range(1, nbPage) %}
+            <li class="page-item"><a class="page-link" href="{{ path('app_user', {page : i, nbr: nbr})}}">{{i}}</a>
+            </li>
+            {% endfor %}
+            {% if page < nbPage %} <li class="page-item"><a class="page-link"
+                    href="{{ path('app_user', {page : page+1, nbr: nbr})}}">Suivant</a></li>
+                {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endif %}
 {% endblock %}

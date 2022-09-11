@@ -13,17 +13,28 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/', name: 'app_main')]
-    public function index(ManagerRegistry $doctrine): Response
+    #[Route('/', name: 'main')]
+    public function appMain(): Response
     {
 
+        return $this->redirectToRoute('app_main');
+    }
+    #[Route('/product/{page?1}/{nbr?12}', name: 'app_main')]
+    public function index(ManagerRegistry $doctrine, $page, $nbr): Response
+    {
         $productRepository = $doctrine->getRepository(Produit::class);
-        $products = $productRepository->findAll();
+        $nbProduct = $productRepository->count([]);
+        $nbPage = ceil($nbProduct / $nbr);
+        $products = $productRepository->findBy([], [], $nbr, ($page - 1) * $nbr);
         $categorieRepository = $doctrine->getRepository(Categorie::class);
         $categories = $categorieRepository->findAll();
         return $this->render('main/index.html.twig', [
             'produits' => $products,
-            'categories' => $categories
+            'categories' => $categories,
+            'isPaginated' => true,
+            'nbPage' => $nbPage,
+            'page' => $page,
+            'nbr' => $nbr
         ]);
     }
 }
