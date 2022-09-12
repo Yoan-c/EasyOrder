@@ -19,9 +19,11 @@ class UserFixture extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager): void
     {
         $fake = Factory::create('fr_FR');
-        /*  $admin = new User();
-        $panierAdmin = new Panier();
-        $admin->setPanier($panierAdmin);
+        $admin = new User();
+        //    $panierAdmin = new Panier();
+        //   $panierAdmin->setIdUser($admin->getId());
+        //  $manager->persist($panierAdmin);
+        //  $admin->addPanier($panierAdmin);
         $admin->setEmail("admin@gmail.com");
         $admin->setPassword($this->hasher->hashPassword($admin, 'test'));
         $admin->setRoles(["ROLE_ADMIN"]);
@@ -35,8 +37,10 @@ class UserFixture extends Fixture implements FixtureGroupInterface
         $manager->persist($admin);
 
         $user = new User();
-        $panierUser = new Panier();
-        $user->setPanier($panierUser);
+        //  $panierUser = new Panier();
+        //  $panierUser->setIdUser($user->getId());
+        //  $manager->persist($panierUser);
+        //  $user->addPanier($panierUser);
         $user->setEmail("test@gmail.com");
         $user->setPassword($this->hasher->hashPassword($user, 'test'));
         $user->setRoles(["ROLE_USER"]);
@@ -48,11 +52,14 @@ class UserFixture extends Fixture implements FixtureGroupInterface
         $user->setCodePostal("78710");
         $user->setDateNaissance($fake->dateTimeBetween('-90 year', '-18 years'));
         $manager->persist($user);
-*/
+
         for ($i = 0; $i < 100; $i++) {
             $user = new User();
-            $panierUser = new Panier();
-            $user->setPanier($panierUser);
+            /*    $panierUser = new Panier();
+            // $panierUser->setIdUser($user->getId());
+            $manager->persist($panierUser);
+            $user->addPanier($panierUser);
+        */
             $user->setEmail($fake->email);
             $user->setPassword($this->hasher->hashPassword($user, 'test'));
             $user->setNom($fake->lastName);
@@ -64,7 +71,6 @@ class UserFixture extends Fixture implements FixtureGroupInterface
             $user->setDateNaissance($fake->dateTimeBetween('-90 year', '-18 years'));
             $manager->persist($user);
         }
-
 
         // $product = new Product();
         // $manager->persist($product);

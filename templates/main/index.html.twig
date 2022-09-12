@@ -9,7 +9,7 @@
             {% if produits is defined %}
             {% for produit in produits %}
             <div class="containCard"
-                onclick="test( '{{produit.label}}','{{produit.description}}','{{produit.quantity}}','{{produit.prix}}','{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}')">
+                onclick="test( '{{page}}','{{produit.id}}','{{produit.label}}','{{produit.description}}','{{produit.quantity}}','{{produit.prix}}','{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}')">
                 <div class=" containImg" id="containProduit">
                     <img src="{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}" alt="img produit"
                         id="imgProduit" />
@@ -50,7 +50,7 @@
                 </li>
                 {% endfor %}
                 {% if page < nbPage %} <li class="page-item"><a class="page-link"
-                        href="{{ path('app_main', {page : page+1, nbr: nbr})}}">Suivant</a></li>
+                        href="{{ path('app_main', {page : page+1, nbr: nbr})}} ">Suivant</a></li>
                     {% endif %}
             </ul>
         </nav>
@@ -80,7 +80,10 @@
         </div>
         <hr>
         {% if app.user is not null %}
+        <p id="errorModal"></p>
         <button type="submit" class="btnModal" id="btnPanier">Mettre au panier</button>
+        <input type="hidden" id="productID" />
+        <input type="hidden" id="page" />
         {% else %}
         <button type="submit" class="btnModal" id="connexion">Se connecter</button>
         {% endif %}
@@ -97,6 +100,8 @@
     let quantityProduct = document.getElementById("quantityProduct");
     let connexion = document.getElementById("connexion");
     let btnPanier = document.getElementById("btnPanier");
+    let productID = document.getElementById("productID");
+    let page = document.getElementById("page");
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function () {
         modal.style.display = "none";
@@ -108,26 +113,40 @@
         }
     let calculTotal = function (e) {
         let qty = quantityProduct.value;
-        let pProduct = document.getElementById("pProduct").textContent;
+        let pProduct = document.getElementById("priceModal").textContent;
 
         let total = qty * parseInt(pProduct);
         let totalPrice = document.getElementById("totalPrice");
         totalPrice.textContent = total + "\u20ac"
-        console.log("valeur " + pProduct)
     }
     quantityProduct.onchange = calculTotal
-    btnPanier.onclick = () => {
-        document.location = "/panier/add";
-    }
-    function test(label, desc, qty, price, url) {
+    if (btnPanier)
+        btnPanier.onclick = () => {
+            let qty = quantityProduct.value;
+            let id = productID.value;
+            let pageNb = page.value;
+            console.log("qty " + qty);
+            if (qty)
+                document.location = "/panier/add/" + id + "/" + qty + "/" + pageNb;
+            else {
+                let p = document.getElementById("errorModal");
+                p.textContent = "Vérifiez la quantité avant de  mettre au panier";
+            }
+
+        }
+    function test(page, id, label, desc, qty, price, url) {
 
         let labelProductModal = document.getElementById("labelProductModal")
         let priceModal = document.getElementById("priceModal");
         let stockProduct = document.getElementById("stockProduct");
         let descProduct = document.getElementById("descProduct");
         let totalPrice = document.getElementById("totalPrice");
+        let productID = document.getElementById("productID");
+        let pageId = document.getElementById("page");
         let img = document.createElement("img");
 
+        productID.value = id;
+        pageId.value = page;
         imgModal.innerHTML = "";
         img.src = url;
         img.alt = "image produit";

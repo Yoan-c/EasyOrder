@@ -4,15 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Categorie;
 use App\Entity\Produit;
+use App\Service\PanierService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Validator\Constraints\Length;
 
 class MainController extends AbstractController
 {
+    public function __construct(
+        private PanierService $panierService
+    ) {
+    }
     #[Route('/', name: 'main')]
     public function appMain(): Response
     {
@@ -22,19 +27,24 @@ class MainController extends AbstractController
     #[Route('/product/{page?1}/{nbr?12}', name: 'app_main')]
     public function index(ManagerRegistry $doctrine, $page, $nbr): Response
     {
+        $isPaginated = true;
         $productRepository = $doctrine->getRepository(Produit::class);
         $nbProduct = $productRepository->count([]);
         $nbPage = ceil($nbProduct / $nbr);
         $products = $productRepository->findBy([], [], $nbr, ($page - 1) * $nbr);
+        $nbArticle = ($this->getUser()) ? $this->panierService->getNbProduitUser($this->getUser()->getId()) : 0;
+        if (!$products || count($products) <= 0)
+            $isPaginated = false;
         $categorieRepository = $doctrine->getRepository(Categorie::class);
         $categories = $categorieRepository->findAll();
         return $this->render('main/index.html.twig', [
             'produits' => $products,
             'categories' => $categories,
-            'isPaginated' => true,
+            'isPaginated' => $isPaginated,
             'nbPage' => $nbPage,
             'page' => $page,
-            'nbr' => $nbr
+            'nbr' => $nbr,
+            "nbArticle" => $nbArticle
         ]);
     }
 }

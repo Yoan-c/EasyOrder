@@ -367,10 +367,10 @@ main {
     margin-top: 10px;
 }
 
+#errorModal {
+    color: red;
+}
+
 /*
     PAGINATION PRODUIT
 */
-.paginationProduct {
-    position: relative;
-    bottom: 0;
-}

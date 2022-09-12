@@ -35,8 +35,6 @@ class Produit
     #[ORM\ManyToMany(targetEntity: Commande::class, mappedBy: 'produit')]
     private Collection $commandes;
 
-    #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'produit')]
-    private Collection $paniers;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
@@ -129,33 +127,6 @@ class Produit
     {
         if ($this->commandes->removeElement($commande)) {
             $commande->removeProduit($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Panier>
-     */
-    public function getPaniers(): Collection
-    {
-        return $this->paniers;
-    }
-
-    public function addPanier(Panier $panier): self
-    {
-        if (!$this->paniers->contains($panier)) {
-            $this->paniers->add($panier);
-            $panier->addProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removePanier(Panier $panier): self
-    {
-        if ($this->paniers->removeElement($panier)) {
-            $panier->removeProduit($this);
         }
 
         return $this;
