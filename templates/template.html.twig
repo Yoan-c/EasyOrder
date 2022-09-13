@@ -49,7 +49,10 @@
 
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div class="btnMenuStyle">
-                        <a href="{{ path('app_logout') }}">Voir panier ({{nbArticle}})</a>
+                        <a href="{{ path('app_panier') }}">Voir panier
+                            {% if nbArticle is defined %}
+                            ({{nbArticle}})
+                            {% endif %}</a>
                     </div>
                     <div class="btnMenuStyle">
                         <a href="{{ path('app_logout') }}">Se déconnecter</a>

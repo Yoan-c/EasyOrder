@@ -32,9 +32,6 @@ class Produit
     #[Assert\Positive]
     private ?int $quantity = null;
 
-    #[ORM\ManyToMany(targetEntity: Commande::class, mappedBy: 'produit')]
-    private Collection $commandes;
-
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
@@ -104,33 +101,6 @@ class Produit
         return $this;
     }
 
-
-    /**
-     * @return Collection<int, Commande>
-     */
-    public function getCommandes(): Collection
-    {
-        return $this->commandes;
-    }
-
-    public function addCommande(Commande $commande): self
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->addProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): self
-    {
-        if ($this->commandes->removeElement($commande)) {
-            $commande->removeProduit($this);
-        }
-
-        return $this;
-    }
 
     public function getImage(): ?string
     {

@@ -22,8 +22,21 @@ class PanierController extends AbstractController
 
     ) {
     }
+    #[Route('/', name: 'app_panier')]
+    public function showPanier(): Response
+    {
+        if (!$this->getUser()) {
+            $this->addFlash('error', "Veuillez vous connecter");
+            return $this->redirectToRoute('app_main');
+        }
+        $paniers =  $this->panierService->getPanierUser($this->getUser());
+        return $this->render('panier/index.html.twig', [
+            'paniers' => $paniers
+        ]);
+    }
+
     #[Route('/add/{idProduct?0}/{qty?1}/{page?1}', name: 'app_panier_add')]
-    public function index(Request $request, $idProduct, $qty, $page): Response
+    public function index($idProduct, $qty, $page): Response
     {
 
         if (!($this->getUser())) {

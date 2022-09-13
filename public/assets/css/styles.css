@@ -328,7 +328,8 @@ main {
 
 .btnBase,
 .btnModal,
-.btn-primary {
+.btn-primary,
+.btnValidePanier {
     border: 1px solid #BD7201;
     border-radius: 5px;
     color: #BD7201;
@@ -338,7 +339,8 @@ main {
 .btnMenuStyle:hover,
 .btnMenuStyle:hover>a,
 .btnModal:hover,
-.btn-primary:hover {
+.btn-primary:hover,
+.btnValidePanier:hover {
     background: #BD7201;
     color: white;
 }
@@ -374,3 +376,131 @@ main {
 /*
     PAGINATION PRODUIT
 */
+
+/*
+    PARTIE PANIER
+*/
+.recapArticle {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "header header header"
+        "produit produit produit"
+        "achat achat achat"
+        "total total total";
+    margin: 20px;
+
+}
+
+.cardPanier {
+    margin-bottom: 50px;
+
+}
+
+
+.titlePanier {
+    grid-area: header;
+    justify-self: center;
+    font-size: 20px;
+    margin-bottom: 50px;
+    margin-top: 25px;
+
+}
+
+.delArticle {
+    position: relative;
+    display: block;
+    float: right;
+    right: 20px;
+    top: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.articles {
+    grid-area: produit;
+    border-radius: 5px;
+    box-shadow: 5px 2px 10px gray;
+}
+
+.imgPanierCard {
+    width: 100px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.imgPanier {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.infoPanier {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px;
+    margin-top: 20px;
+}
+
+.labelProduit,
+.total {
+    font-weight: bold;
+}
+
+.choiceQty {
+    width: 25px;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+.qtyPanier,
+.infoTotal {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px;
+}
+
+.contentPanier {
+    margin: auto auto;
+    width: 80%;
+}
+
+.continueAchat {
+    grid-area: achat;
+    margin-top: 20px;
+}
+
+.cardTotal {
+    grid-area: total;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.infoTotal {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.btnValidePanier {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.returnAchantLink {
+    text-decoration: none;
+    color: black;
+}
+
+.returnAchantLink {
+    text-decoration: none;
+    color: black;
+}
+
+.returnAchantLink:hover {
+    color: #BD7201;
+}
