@@ -22,7 +22,11 @@ class UserType extends AbstractType
             ->add('ville')
             ->add('codePostal')
             ->add('Pays')
-            ->add('dateNaissance', DateType::class, [])
+            ->add('dateNaissance', DateType::class, [
+                'widget' => 'choice',
+                'days' => range(1, 31),
+                'years' => range(date("Y") - 100, date("Y") - 18)
+            ])
             ->add('administrateur', ChoiceType::class, [
                 'mapped' => false,
                 'choices'  => [

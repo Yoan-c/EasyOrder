@@ -1,7 +1,26 @@
-{% extends 'template.html.twig' %}
+{% extends 'templateCompte.html.twig' %}
 
-{% block title %}Hello CommandeController!{% endblock %}
+{% block title %}Mes commandes{% endblock %}
 
+{% block pageTitle %}
+Mes commandes
+{% endblock %}
 {% block body %}
-COMMANDE
+<div class="row">
+    {% for commande in commandes %}
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body ">
+                <h5 class="card-title titreCommande">Commande n &deg; : {{commande.id}}</h5>
+                <div class="infoCommande">
+                    <p class="card-text dateCommande">{{commande.date | date("d/m/Y") }}</p>
+                    <p class="card-text montantCommande">{{commande.total}} &euro;</p>
+                </div>
+                <a href="{{path('app_commande_detail', {id: commande.id})}}" class="btn btn-primary btnCommande">Voir
+                    détails</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -17,7 +17,7 @@ use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 
 #[
-    Route('/commande'),
+    Route('/order'),
     IsGranted('ROLE_USER')
 ]
 class CommandeController extends AbstractController
@@ -28,6 +28,52 @@ class CommandeController extends AbstractController
         private ManagerRegistry $doctrine,
     ) {
     }
+
+    #[Route('/', name: 'app_commande')]
+    public function index(): Response
+    {
+        $commandeRepo = $this->doctrine->getRepository(Commande::class);
+        $commandes = $commandeRepo->findAll();
+        return $this->render('commande/index.html.twig', [
+            'commandes' => $commandes
+        ]);
+    }
+    #[Route('/detail/{id?0}', name: 'app_commande_detail')]
+    public function detailCommande(Commande $commande = null): Response
+    {
+        if (!$commande) {
+            $this->addFlash('error', "Une erreur s'est produite");
+            // rediriger vers l'acceuil du compte
+            return $this->redirectToRoute('app_commande');
+        }
+        $commandeRepo = $this->doctrine->getRepository(CommandeProduit::class);
+        $commandes = $commandeRepo->findBy(["idCommande" => $commande->getId()]);
+        $productRepo = $this->doctrine->getRepository(Produit::class);
+
+        $tab = [];
+        $tab[] = [
+            "idCommande" => $commande->getId(),
+            "date" => $commande->getDate(),
+            "total" => $commande->getTotal()
+        ];
+
+        for ($i = 0; $i < count($commandes); $i++) {
+            $product = $productRepo->find($commandes[$i]->getIdProduit()->getId());
+            $obj = [
+                "quantity" => $commandes[$i]->getQuantity(),
+                "totalProduit" => $commandes[$i]->getTotal(),
+                "prix" => $product->getPrix(),
+                "label" => $product->getLabel(),
+                "image" => $product->getImage(),
+            ];
+            $tab[] = $obj;
+        }
+
+        return $this->render('commande/detail.html.twig', [
+            "commandes" => $tab
+        ]);
+    }
+
     #[Route('/add', name: 'app_commande_add')]
     public function addCommande(Request $req): Response
     {
@@ -43,19 +89,22 @@ class CommandeController extends AbstractController
         $manager = $this->doctrine->getManager();
         $userRepositoy = $this->doctrine->getRepository(User::class);
         $user = $userRepositoy->find($this->getUser()->getId());
-
+        $totalCommande = 0;
         $commande = new Commande();
         $commande->setDate(new DateTime('now'));
         $commande->setUser($user);
+        $commande->setTotal($totalCommande);
         $manager->persist($commande);
         // faire un persist
 
         for ($i = 0; $i < count($tabProduct); $i++) {
+
             $commandeProduit = new CommandeProduit();
             $commandeProduit->setIdCommande($commande);
             $commandeProduit->setIdProduit($tabProduct[$i]["produit"]);
             $qty = ($tabProduct[$i]["quantity"] > $tabProduct[$i]["produit"]->getQuantity()) ? $tabProduct[$i]["produit"]->getQuantity() : $tabProduct[$i]["quantity"];
             $commandeProduit->setQuantity($qty);
+            $totalCommande += $qty * $tabProduct[$i]["produit"]->getPrix();
             $commandeProduit->setTotal($qty * $tabProduct[$i]["produit"]->getPrix());
             $productRepositoy = $this->doctrine->getRepository(Produit::class);
             $product = $productRepositoy->find($tabProduct[$i]["produit"]->getId());
@@ -64,7 +113,9 @@ class CommandeController extends AbstractController
             $manager->persist($product);
             $manager->flush();
         }
-        // $manager->flush();
+        $commande->setTotal($totalCommande);
+        $manager->persist($commande);
+        $manager->flush();
         $this->addFlash("success", "La commande a bien été enregistré");
         return $this->redirectToRoute('app_main');
     }

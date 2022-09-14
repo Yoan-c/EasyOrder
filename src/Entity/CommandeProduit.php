@@ -19,7 +19,7 @@ class CommandeProduit
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?produit $idProduit = null;
+    private ?Produit $idProduit = null;
 
     #[ORM\Column]
     private ?float $quantity = null;
@@ -32,24 +32,24 @@ class CommandeProduit
         return $this->id;
     }
 
-    public function getIdCommande(): ?commande
+    public function getIdCommande(): ?Commande
     {
         return $this->idCommande;
     }
 
-    public function setIdCommande(?commande $idCommande): self
+    public function setIdCommande(?Commande $idCommande): self
     {
         $this->idCommande = $idCommande;
 
         return $this;
     }
 
-    public function getIdProduit(): ?produit
+    public function getIdProduit(): ?Produit
     {
         return $this->idProduit;
     }
 
-    public function setIdProduit(?produit $idProduit): self
+    public function setIdProduit(?Produit $idProduit): self
     {
         $this->idProduit = $idProduit;
 

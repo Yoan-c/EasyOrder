@@ -1,0 +1,91 @@
+{% extends 'templateCompte.html.twig' %}
+
+{% block title %}Hello CompteController!{% endblock %}
+
+{% block pageTitle %}
+Mes informations
+{% endblock %}
+{% block body %}
+<div class="alert alert-danger" id="errorMsg">
+</div>
+{{ form_start(formUser, {'attr': {'novalidate': 'novalidate'}}) }}
+<div class="row">
+    <div class="col">{{ form_row(formUser.nom)}}</div>
+    <div class="col">{{ form_row(formUser.prenom)}}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_row(formUser.adresse)}}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_row(formUser.ville)}}</div>
+    <div class="col">{{ form_row(formUser.codePostal)}}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_row(formUser.Pays)}}</div>
+
+</div>
+<div class="row">
+    <div class="col">{{ form_row(formUser.dateNaissance)}}</div>
+</div>
+
+<div class="row">
+    <div class="col ">
+        {{ form_widget(formUser.editer, {'attr': {'class': 'btnChangePass'}}) }}
+    </div>
+</div>
+{{ form_end(formUser)}}
+<form id="myFormPass" action="{{path('app_compte_edit_pass')}}" method="post">
+    <div class=" mdpCompte">
+        <div class="col-12 col-sm-3">
+            <label for="pass" class="form-label margeTopFormCompte">Mot de passe</label>
+            <input type="password" class="form-control margeTopFormCompte" name="pass" id="pass">
+        </div>
+        <div class="col-12 col-sm-4">
+            <label for="confirmPass" class="form-label margeTopFormCompte">Confirmation mot de passe</label>
+            <input type="password" class="form-control margeTopFormCompte" name="confirmPass" id="confirmPass" />
+        </div>
+        <div class="col-12 col-sm-3">
+            <input type="button" class="form-control btnChangePass margeTopFormCompte" name="Confrimer"
+                value="Changer mot de passe" id="btnFormPass" />
+        </div>
+    </div>
+</form>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    let btnFormPass = document.getElementById('btnFormPass');
+    let password = document.getElementById('pass');
+    let confirmPassword = document.getElementById('confirmPass');
+    let form = document.getElementById('myFormPass');
+    btnFormPass.onclick = (e) => {
+        e.preventDefault();
+        let pass = password.value;
+        let confirmPass = confirmPassword.value;
+        let alertMsg = document.getElementById('errorMsg');
+        if (pass.length < 6) {
+            alertMsg.textContent = "Mot de passe trop court, il doit faire au minimum 6 caractère";
+            alertMsg.style.display = "block";
+        }
+        if (confirmPass !== pass) {
+            alertMsg.textContent = "Les mots de passe sont différents";
+            alertMsg.style.display = "block";
+        }
+        if (pass.length >= 6 && confirmPass == pass) {
+            form.submit();
+        }
+    }
+    confirmPassword.onkeyup = () => {
+        console.log("toto");
+        if (password.value !== confirmPassword.value) {
+            password.style.background = 'red'
+            confirmPassword.style.background = 'red'
+        }
+        else {
+            password.style.background = 'green'
+            confirmPassword.style.background = 'green'
+        }
+    }
+</script>
+{% endblock %}

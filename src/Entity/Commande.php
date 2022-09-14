@@ -26,6 +26,9 @@ class Commande
     #[ORM\OneToMany(mappedBy: 'idCommande', targetEntity: CommandeProduit::class, orphanRemoval: true)]
     private Collection $commandeProduits;
 
+    #[ORM\Column]
+    private ?float $total = null;
+
 
     public function __construct()
     {
@@ -88,6 +91,18 @@ class Commande
                 $commandeProduit->setIdCommande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
+    }
+
+    public function setTotal(float $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

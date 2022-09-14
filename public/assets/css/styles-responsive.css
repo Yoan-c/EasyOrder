@@ -65,6 +65,35 @@
         justify-self: center;
     }
 
+    /*
+        COMMANDE
+    */
+
+
+    .infoCommande {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+    }
+
+    .imgCommande {
+        max-width: 300px;
+        width: 100px;
+        margin-right: 5px;
+    }
+
+    .infoPriceCommande {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .numberInfoCommande {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+        width: 100px;
+    }
 }
 
 @media screen and (min-width: 701px) {
@@ -104,6 +133,19 @@
         margin-right: 25px;
     }
 
+    .cardSize {
+        font-size: 14px;
+    }
+
+    .infoMontant {
+        font-size: 16px;
+    }
+
+    .mdpCompte {
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: flex-end;
+    }
 
 
 }
