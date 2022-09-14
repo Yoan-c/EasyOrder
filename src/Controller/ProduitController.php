@@ -93,10 +93,14 @@ class ProduitController extends AbstractController
     ]
     public function deleteProduct(
         ManagerRegistry $doctrine,
-        Produit $produit = null
+        Produit $produit = null,
+        UploaderService $uploader,
     ): Response {
 
         if ($produit) {
+            $directory = $this->getParameter('produits_directory');
+
+            $uploader->deleteFile($produit->getImage(), $directory);
             $manager = $doctrine->getManager();
             $manager->remove($produit);
             $manager->flush();

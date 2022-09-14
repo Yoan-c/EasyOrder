@@ -11,7 +11,7 @@ class CategorieFixture extends Fixture implements FixtureGroupInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $tabCategorie = ['T-shirt', "Pantalons", "survetement", "Manteau"];
+        $tabCategorie = ['T-shirt', "Pantalon", "Manteau", "Jean", "Coton"];
         $nbCategorie = count($tabCategorie);
         for ($i = 0; $i < $nbCategorie; $i++) {
             $categorie = new Categorie();
@@ -23,6 +23,6 @@ class CategorieFixture extends Fixture implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['Categorie'];
+        return ["group1", 'Categorie'];
     }
 }

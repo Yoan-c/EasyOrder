@@ -29,7 +29,7 @@
                     </div>
                     {% endif %}
                     <div class="priceProduct" id="pProduct">
-                        {{produit.prix }} &euro;
+                        {{produit.prix|number_format(2) }} &euro;
                     </div>
                 </div>
             </div>
@@ -82,9 +82,10 @@
         {% if app.user is not null %}
         <p id="errorModal"></p>
         <button type="submit" class="btnModal" id="btnPanier">Mettre au panier</button>
+
+        {% else %}
         <input type="hidden" id="productID" />
         <input type="hidden" id="page" />
-        {% else %}
         <button type="submit" class="btnModal" id="connexion">Se connecter</button>
         {% endif %}
     </div>
@@ -112,12 +113,12 @@
             document.location = "/login";
         }
     let calculTotal = function (e) {
-        let qty = quantityProduct.value;
+        let qty = parseInt(quantityProduct.value);
         let pProduct = document.getElementById("priceModal").textContent;
 
-        let total = qty * parseInt(pProduct);
+        let total = parseFloat(qty).toFixed(2) * parseFloat(pProduct).toFixed(2);
         let totalPrice = document.getElementById("totalPrice");
-        totalPrice.textContent = total + "\u20ac"
+        totalPrice.textContent = parseFloat(total).toFixed(2) + "\u20ac"
     }
     quantityProduct.onchange = calculTotal
     if (btnPanier)
@@ -125,7 +126,6 @@
             let qty = quantityProduct.value;
             let id = productID.value;
             let pageNb = page.value;
-            console.log("qty " + qty);
             if (qty)
                 document.location = "/panier/add/" + id + "/" + qty + "/" + pageNb;
             else {
@@ -154,9 +154,8 @@
         imgModal.appendChild(img);
 
         labelProductModal.textContent = label;
-        totalPrice.textContent = price + '\u20ac'
-        priceModal.textContent = price + '\u20ac';
-        console.log("qty " + qty);
+        totalPrice.textContent = parseFloat(price).toFixed(2) + '\u20ac'
+        priceModal.textContent = parseFloat(price).toFixed(2) + '\u20ac';
         if (parseInt(qty) <= 0) {
             stockProduct.textContent = "Indisponible";
             stockProduct.style.color = 'red';
