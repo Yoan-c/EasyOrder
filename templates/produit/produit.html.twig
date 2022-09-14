@@ -11,7 +11,7 @@ La liste des produits dans la base de donnée est vide
 {% endfor %}
 <div class="row ">
     {% for produit in tabProduits %}
-    <div class="card ms-2" style="width: 18rem;">
+    <div class="card ms-2 mt-2" style="width: 18rem;">
         <img src="{{asset('/uploads/produits/') ~ produit.image | defaultImage}}" class="card-img-top "
             alt="image produit">
         <div class="card-body">

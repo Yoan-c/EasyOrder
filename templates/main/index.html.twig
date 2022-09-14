@@ -9,8 +9,9 @@
             {% if produits is defined %}
             {% for produit in produits %}
             <div class="containCard"
-                onclick="test( '{{page}}','{{produit.id}}','{{produit.label}}','{{produit.description}}','{{produit.quantity}}','{{produit.prix}}','{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}')">
+                onclick="test( '{{loop.index0}}','{{page}}','{{produit.id}}','{{produit.label}}','{{produit.quantity}}','{{produit.prix}}','{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}')">
                 <div class=" containImg" id="containProduit">
+                    <div id="{{'desc_' ~ loop.index0}}" data-is-user-panier="{{produit.description}}"></div>
                     <img src="{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}" alt="img produit"
                         id="imgProduit" />
                 </div>
@@ -38,18 +39,19 @@
         </div>
     </div>
     {% if isPaginated is defined and isPaginated %}
-    <div class="row mt-2 paginationProduct">
+    <div class="row mt-2 paginationProduct  ">
 
         <nav aria-label="col Page navigation example">
             <ul class="pagination">
-                {% if page != 1 %} <li class="page-item"><a class="page-link"
+                {% if page != 1 %} <li class="page-item"><a class="page-link stylePagination"
                         href="{{ path('app_main', {page : page-1, nbr: nbr})}}">Précédent</a></li>
                 {% endif %}
                 {% for i in range(1, nbPage) %}
-                <li class="page-item"><a class="page-link" href="{{ path('app_main', {page : i, nbr: nbr})}}">{{i}}</a>
+                <li class="page-item"><a class="page-link stylePagination"
+                        href="{{ path('app_main', {page : i, nbr: nbr})}}">{{i}}</a>
                 </li>
                 {% endfor %}
-                {% if page < nbPage %} <li class="page-item"><a class="page-link"
+                {% if page < nbPage %} <li class="page-item"><a class="page-link stylePagination"
                         href="{{ path('app_main', {page : page+1, nbr: nbr})}} ">Suivant</a></li>
                     {% endif %}
             </ul>
@@ -134,12 +136,16 @@
             }
 
         }
-    function test(page, id, label, desc, qty, price, url) {
+    function test(index, page, id, label, qty, price, url) {
 
         let labelProductModal = document.getElementById("labelProductModal")
         let priceModal = document.getElementById("priceModal");
         let stockProduct = document.getElementById("stockProduct");
         let descProduct = document.getElementById("descProduct");
+        let idDesc = "#desc_" + index;
+        let descSelector = document.querySelector(idDesc);
+        console.log("desc test ", descSelector.dataset.isUserPanier);
+        let desc = descSelector.dataset.isUserPanier;
         let totalPrice = document.getElementById("totalPrice");
         let productID = document.getElementById("productID");
         let pageId = document.getElementById("page");

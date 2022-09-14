@@ -58,6 +58,7 @@ input[type=number] {
     width: 15px;
     margin-right: 5px;
     margin-bottom: 2px;
+    cursor: pointer;
 }
 
 .search {
@@ -179,7 +180,7 @@ main {
 
 .containImg>img {
     max-width: 100%;
-    height: auto;
+    height: 105px;
 }
 
 .infoProduct {
@@ -213,6 +214,11 @@ main {
 .stockProd-indispo {
     color: red;
 }
+
+.stylePagination {
+    color: black;
+}
+
 
 /*
 

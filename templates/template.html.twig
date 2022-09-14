@@ -21,17 +21,19 @@
             </a>
         </div>
         <div class="bgSearch">
-            <select class="selectCategorie" name="categorie" id="idCategorie">
-                <option value="">Categorie</option>
-                {% if categories is defined %}
-                {% for categorie in categories %}
-                <option value="{{categorie.nom}}">{{categorie.nom}}</option>
-                {% endfor %}
-                {% endif %}
-            </select>
-            <input class="search" type="text" name="search" placeholder="Rechercher" />
-            <img src="{{asset('assets/images/search_arrow.png')}}" alt="fleche rechercher" id="arrowSearch"
-                class="arrowSearch">
+            <form action="{{path('app_main_search')}}" method="GET" id="formGetProduct">
+                <select class="selectCategorie" name="categorie" id="idCategorie">
+                    <option value="">Categorie</option>
+                    {% if categories is defined %}
+                    {% for categorie in categories %}
+                    <option value="{{categorie.nom}}">{{categorie.nom}}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+                <input class="search" type="text" name="search" placeholder="Rechercher" />
+                <img src="{{asset('assets/images/search_arrow.png')}}" alt="fleche rechercher" id="arrowSearch"
+                    class="arrowSearch">
+            </form>
         </div>
         <div class="actionHeader-userMenu">
             {% if app.user is not null %}
@@ -100,9 +102,12 @@
     <script>
         let imgMenu = document.getElementById("imgMenu");
         let actionHeader = document.getElementById("actionHeader");
+        let arrowSearch = document.getElementById("arrowSearch");
+        let formGetProduct = document.getElementById("formGetProduct");
+        arrowSearch.onclick = () => {
+            formGetProduct.submit();
+        }
         imgMenu.onclick = () => {
-            console.log(actionHeader.className.indexOf("slide-in"))
-            console.log(actionHeader.className.indexOf("slide-out"))
             let classes = "actionHeader ";
             if (actionHeader.className.includes("slide-in")) {
                 actionHeader.setAttribute('class', classes + "slide-out");

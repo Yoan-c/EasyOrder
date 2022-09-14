@@ -24,6 +24,39 @@ class MainController extends AbstractController
 
         return $this->redirectToRoute('app_main');
     }
+
+    #[Route('/product/search/{page?1}/{nbr?12}', name: 'app_main_search')]
+    public function getProductSearch(ManagerRegistry $doctrine, Request $req, $page, $nbr): Response
+    {
+
+        $categorieSearch = $req->query->get("categorie");
+        $productSearch = $req->query->get("search");
+        if (!$categorieSearch && !$productSearch) {
+            return $this->redirectToRoute('app_main');
+        }
+        $isPaginated = true;
+        $categorieSearch = "%" . $categorieSearch . "%";
+        $productSearch = "%" . $productSearch . "%";
+        $productRepository = $doctrine->getRepository(Produit::class);
+        $products = $productRepository->searchProduct($categorieSearch, $productSearch);
+        //  dd($test);
+        $nbProduct = $productRepository->count([]);
+        $nbPage = ceil($nbProduct / $nbr);
+        $nbArticle = ($this->getUser()) ? $this->panierService->getNbProduitUser($this->getUser()->getId()) : 0;
+        if (!$products || count($products) <= 0)
+            $isPaginated = false;
+        $categorieRepository = $doctrine->getRepository(Categorie::class);
+        $categories = $categorieRepository->findAll();
+        return $this->render('main/index.html.twig', [
+            'produits' => $products,
+            'categories' => $categories,
+            'isPaginated' => $isPaginated,
+            'nbPage' => $nbPage,
+            'page' => $page,
+            'nbr' => $nbr,
+            "nbArticle" => $nbArticle
+        ]);
+    }
     #[Route('/product/{page?1}/{nbr?12}', name: 'app_main')]
     public function index(ManagerRegistry $doctrine, $page, $nbr): Response
     {
