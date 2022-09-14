@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Entity\CommandeProduit;
+use App\Entity\Panier;
 use App\Entity\Produit;
 use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -115,6 +116,11 @@ class CommandeController extends AbstractController
         }
         $commande->setTotal($totalCommande);
         $manager->persist($commande);
+        $panierRepo = $this->doctrine->getRepository(Panier::class);
+        $panierUser = $panierRepo->findBy(["idUser" => $user->getId()]);
+        for ($i = 0; $i < count($panierUser); $i++) {
+            $manager->remove($panierUser[$i]);
+        }
         $manager->flush();
         $this->addFlash("success", "La commande a bien été enregistré");
         return $this->redirectToRoute('app_main');

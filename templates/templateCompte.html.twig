@@ -41,10 +41,8 @@
 
                     {#% if is_granted('ROLE_USER') %#}
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li><a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a></li>
-                    {% else %}
-                    <li><a class="dropdown-item" href="{{ path('app_login') }}">Login</a></li>
-                    <li><a class="dropdown-item" href="#">register</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_main') }}">Retour site</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a></li>
                     {% endif %}
                 </ul>
             </li>
@@ -132,17 +130,12 @@
                             {% endblock %}
                         </div>
                     </div>
-                    <div style="height: 100vh"></div>
-                    <div class="card mb-4">
-                        <div class="card-body">When scrolling, the navigation stays at the top of the page. This is the
-                            end of the static navigation demo.</div>
-                    </div>
                 </div>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                        <div class="text-muted">Copyright &copy; EasyOrder 2022</div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;
