@@ -31,18 +31,27 @@ class ProduitController extends AbstractController
     }
 
     #[
-        Route('/produits', name: 'app_admin_products'),
+        Route('/produits/{page?1}/{nbr?12}', name: 'app_admin_products'),
         IsGranted('ROLE_ADMIN')
     ]
-    public function getAllProduct(ManagerRegistry $doctrine): Response
+    public function getAllProduct(ManagerRegistry $doctrine, $page, $nbr): Response
     {
+        $isPaginated = true;
         $productRepository = $doctrine->getRepository(Produit::class);
         $tabProduits = $productRepository->findAll();
-
+        $nbProduct = $productRepository->count([]);
+        $nbPage = ceil($nbProduct / $nbr);
+        $products = $productRepository->findBy([], [], $nbr, ($page - 1) * $nbr);
+        if (!$products || count($products) <= 0)
+            $isPaginated = false;
         //$this->addFlash("success", "Message reussi a passer avec succes");
         return $this->render('produit/produit.html.twig', [
             'test' => 'AdminController',
-            "tabProduits" => $tabProduits
+            "tabProduits" => $products,
+            'isPaginated' => $isPaginated,
+            'nbPage' => $nbPage,
+            'page' => $page,
+            'nbr' => $nbr,
         ]);
     }
     #[

@@ -38,8 +38,7 @@
             {% endif %}
         </div>
     </div>
-    {% if isPaginated is defined and isPaginated %}
-    <div class="row mt-2 paginationProduct  ">
+    {% if isPaginated is defined and isPaginated %} <div class="row mt-2 paginationProduct  ">
 
         <nav aria-label="col Page navigation example">
             <ul class="pagination">
@@ -84,12 +83,11 @@
         {% if app.user is not null %}
         <p id="errorModal"></p>
         <button type="submit" class="btnModal" id="btnPanier">Mettre au panier</button>
-
         {% else %}
-        <input type="hidden" id="productID" />
-        <input type="hidden" id="page" />
         <button type="submit" class="btnModal" id="connexion">Se connecter</button>
         {% endif %}
+        <input type="hidden" id="page" />
+        <input type="hidden" id="productID" />
     </div>
 
 </div>

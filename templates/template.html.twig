@@ -37,7 +37,11 @@
         </div>
         <div class="actionHeader-userMenu">
             {% if app.user is not null %}
-            <div class="infoUser">Bienvenue {{ app.user.email }}</div>
+            <div class="infoUser">
+                <a href="{{ path('app_commande') }}">
+                    Bienvenue {{ app.user.email }}
+                </a>
+            </div>
             {% endif %}
         </div>
         <div class="menu">
