@@ -1,0 +1,60 @@
+{% extends 'templateCompte.html.twig' %}
+
+{% block title %}Mes commandes{% endblock %}
+
+{% block pageTitle %}
+Ma commande n &deg; : {{commandes.0.idCommande}}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col">
+            {% for commande in commandes %}
+            {% if (loop.index0 > 0 )%}
+
+            <div class="card mt-4">
+                <div class="card-body cardSize">
+                    <p class="dateCommande">Date de la commande : {{commandes.0.date | date('d/m/Y')}}</p>
+                    <div class="infoCommande">
+                        <div class="divImg">
+                            <img src="{{asset('/uploads/produits/') ~ commande.image | defaultImage}}"
+                                alt="image commande" class="imgCommande">
+                        </div>
+                        <div class="infoPriceCommande">
+                            <div class="labelInfoCommande">
+                                <p> Quantité : </p>
+                                <p> Prix : </p>
+                                <p class="totalPriceLabel"> Total : </p>
+                            </div>
+                            <div class="numberInfoCommande">
+                                <p>
+                                    {{commande.quantity}}
+                                </p>
+
+                                <p>
+                                    {{commande.prix}} &euro;
+                                </p>
+                                <p class="totalPrice">
+                                    {{commande.totalProduit}} &euro;
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col cardSize infoMontant">
+            <p> Total </p>
+            <p>{{commandes.0.total}} &euro;</p>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+{% endblock %}

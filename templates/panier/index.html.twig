@@ -1,0 +1,152 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}Hello PanierController!{% endblock %}
+
+{% block body %}
+<div class="contentPanier">
+    <h1 class="titlePanier">Récapitulatif de mon Panier</h1>
+    {% for panier in paniers %}
+    <div class="recapArticle" id="recapArticle_{{loop.index0}}">
+        <div class="articles">
+            <div class="cardPanier">
+                <div class="divDelArticle">
+                    <span class="delArticle" onclick="SuppArticle({{loop.index0}})">&times;</span>
+                </div>
+                <div class="imgPanier">
+                    <img src="{{asset('/uploads/produits/' ~ panier.img| defaultImage )}}" class="imgPanierCard "
+                        alt="image produit">
+                </div>
+                <div class="infoPanier">
+                    <p class="labelProduit" id="labelProduct_{{panier.idProduct}}">
+                        {{panier.label}}
+                    </p>
+                    <p class="prixProduit" id="prixProduit_{{loop.index0}}">
+                        {{panier.price}} &euro;
+                    </p>
+                </div>
+                <div class="qtyPanier">
+                    <div>
+                        <p>
+                            Quantité :
+                            <input type="number" class="choiceQty" id="choiceQty_{{loop.index0}}"
+                                value={{panier.quantity}} min=1 max="{{panier.quantityMax}}"
+                                onchange="calculTotalPanier()" />
+                        </p>
+                        <p>Stock : {{panier.quantityMax}}</p>
+                    </div>
+                    <div class="total" id="total_{{loop.index0}}">
+                        {{panier.total}} &euro;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="js-panier-user" data-is-user-panier="{{panier|json_encode|e('html_attr')}}" display="block"></div>
+    {% endfor %}
+    <div class="suitePanier">
+        <div class="continueAchat">
+            <a href="#" class="returnAchantLink">
+                <img src="{{asset('assets/images/precedent.png')}}" alt="imgage precedent" width="20px">
+                Continuer mes achats</a>
+        </div>
+        <div class="cardTotal">
+            <div class="infoTotal">
+                <p> total</p>
+                <p class="prixTotal" id="prixTotal"> 30.95 &euro;</p>
+            </div>
+            <form action="{{ path('app_commande_add') }}" method="POST" id="orderForm">
+                <button type="submit" class="btnValidePanier" id="btnValidePanier">Valider la commande </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+
+    function getInfoPanier() {
+        let recap = document.getElementsByClassName('recapArticle');
+        let size = recap.length;
+
+        let tabData = [];
+        for (let i = 0; i < size; i++) {
+            let prixProduit = document.getElementsByClassName('prixProduit')[i];
+            let quantity = document.getElementsByClassName('choiceQty')[i];
+            prixProduit = parseFloat(prixProduit.textContent);
+            let max = parseInt(quantity.max);
+            qty = parseInt(quantity.value);
+            qty = (qty > max) ? max : qty;
+            quantity.value = qty
+            obj = {
+                "prixProduit": prixProduit,
+                "qty": qty,
+                "totalproduit": parseFloat(qty * prixProduit),
+            }
+            tabData.push(JSON.stringify(obj));
+        }
+        return tabData;
+    }
+    let btnValidePanier = document.getElementById("btnValidePanier");
+    btnValidePanier.onclick = (e) => {
+        // e.preventDefault();
+        let datas = getInfoPanier();
+        let userPanier = document.querySelectorAll('.js-panier-user');
+        let commandes = [];
+        for (let i = 0; i < userPanier.length; i++) {
+            let panier = JSON.parse(userPanier[i].dataset.isUserPanier)
+            let data = JSON.parse(datas[i])
+            panier.quantity = data.qty;
+            panier.total = data.totalproduit;
+            let obj = {
+                "quantity": data.qty,
+                "total": data.totalproduit,
+                "idProduct": panier.idProduct
+            }
+            commandes.push(obj)
+        }
+        let form = document.getElementById("orderForm");
+        let total = document.createElement("input");
+        total.name = "total"
+        total.value = commandes.length;
+        total.type = 'hidden';
+        form.appendChild(total);
+        for (let i = 0; i < commandes.length; i++) {
+            let intputQuantity = document.createElement("input");
+            let intputIdp = document.createElement("input");
+            intputQuantity.value = commandes[i].quantity;
+            intputQuantity.name = "quantity_" + [i];
+            intputQuantity.type = 'hidden';
+            intputIdp.value = commandes[i].idProduct
+            intputIdp.name = "id_" + [i];
+            intputIdp.type = 'hidden';
+            form.appendChild(intputQuantity);
+            form.appendChild(intputIdp);
+        }
+    }
+
+    function calculTotalPanier() {
+        let prixTotal = document.getElementById('prixTotal');
+        let tabData = getInfoPanier();
+        let totalPrice = 0;
+        for (let i = 0; i < tabData.length; i++) {
+            data = JSON.parse(tabData[i]);
+            let total = document.getElementsByClassName('total')[i];
+            total.textContent = data.totalproduit + "\u20ac";
+            totalPrice += data.totalproduit;
+        }
+        prixTotal.textContent = totalPrice + "\u20ac";
+    }
+    function SuppArticle(id) {
+        let div = document.getElementById("recapArticle_" + id);
+        var tabUserPanier = document.querySelectorAll('.js-panier-user');
+        if (tabUserPanier) {
+            delete tabUserPanier[id].remove();
+            tabUserPanier[id].dataset.isUserPanier = 0;
+        }
+        div.remove();
+        calculTotalPanier();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,276 @@
+@media screen and (min-width: 400px) {
+
+    /*
+        PARTIE PANIER
+    */
+    .cardPanier {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "close close close"
+            "produit infoPanier infoPanier"
+            "produit qtyPanier qtyPanier";
+        margin: 20px;
+        max-width: 900px;
+    }
+
+    .divDelArticle {
+        grid-area: close;
+    }
+
+    .delArticle {
+        top: 0;
+    }
+
+    .imgPanier {
+        grid-area: produit;
+        display: block;
+        margin: 0;
+        border: 0;
+    }
+
+    .infoPanier {
+        grid-area: infoPanier;
+        margin-top: 10px;
+        margin-left: 5px;
+    }
+
+    .qtyPanier {
+        grid-area: qtyPanier;
+    }
+
+    .prixTotal {
+        margin-right: 22px;
+    }
+}
+
+@media screen and (min-width: 450px) {
+
+    /*
+                MODAL
+            */
+    .containtModal {
+        grid-template-areas:
+            "img header header header"
+            "img desc desc desc"
+            "stock . . ."
+            "namePrice . . price"
+            "quantity . . nb"
+            "total . . totPrice";
+
+    }
+
+    .labelProductModal {
+        justify-self: center;
+    }
+
+    /*
+        COMMANDE
+    */
+
+
+    .infoCommande {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+    }
+
+    .imgCommande {
+        max-width: 300px;
+        width: 100px;
+        margin-right: 5px;
+    }
+
+    .infoPriceCommande {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .numberInfoCommande {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-end;
+        width: 100px;
+    }
+}
+
+@media screen and (min-width: 701px) {
+
+    body {
+        font-size: 12px;
+    }
+
+    .logo {
+        margin-top: 40px;
+        justify-self: center;
+    }
+
+    .imgLogo {
+        width: 200px;
+    }
+
+    .bgSearch {
+        margin-top: 54px;
+        /*  width: 350px;*/
+        border-radius: 0 5px 5px 0;
+        height: 22px;
+        justify-self: center;
+    }
+
+    .search {
+        width: 250px;
+    }
+
+    .imgModalJs {
+        max-width: 210px;
+        margin-right: 20px;
+    }
+
+    .prixTotal {
+        margin-right: 25px;
+    }
+
+    .cardSize {
+        font-size: 14px;
+    }
+
+    .infoMontant {
+        font-size: 16px;
+    }
+
+    .mdpCompte {
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: flex-end;
+    }
+
+
+}
+
+@media screen and (min-width: 1000px) {
+
+
+    /*
+        header
+    */
+    header {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        grid-template-areas:
+            "logo search search info menu";
+
+    }
+
+    .logo {
+        grid-area: logo;
+    }
+
+    .bgSearch {
+        grid-area: search;
+    }
+
+    .menu {
+        grid-area: menu;
+        margin: auto;
+    }
+
+    .imgMenu {
+        display: none;
+    }
+
+    .actionHeader {
+        position: relative;
+        left: 0;
+        right: 0;
+        top: 0;
+        width: 280px;
+        height: auto;
+    }
+
+    .actionHeader-site {
+        display: flex;
+        margin: 0;
+
+    }
+
+    .actionHeader-user {
+        display: none;
+        width: 200px;
+    }
+
+    .actionHeader-userMenu {
+        display: block;
+        grid-area: info;
+        color: #BD7201;
+        margin-top: 55px;
+        margin-left: 10px;
+    }
+
+
+
+    .btnMenuStyle {
+        border: 1px solid #BD7201;
+        border-radius: 8px;
+        background-color: white;
+        margin: 10px;
+        padding: 5px;
+        width: 120px;
+    }
+
+    .btnMenuStyle>a {
+        background-color: white;
+        text-align: center;
+    }
+
+    /*
+        MODAL
+    */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 100px auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 700px;
+        height: 450px;
+    }
+
+    .containtModal {
+
+        height: 300px;
+
+    }
+
+    .quantityProduct {
+        grid-area: nb;
+        border: none;
+        border-bottom: 1px solid black;
+
+        justify-self: end;
+    }
+
+    .imgModalJs {
+        max-width: 310px;
+        max-height: 200px;
+    }
+
+    /*
+        PANIER
+    */
+    .recapArticle,
+    .contentPanier {
+        max-width: 900px;
+        margin: auto auto;
+    }
+
+    .infoTotal {
+        align-items: center;
+        margin-right: 19px;
+    }
+
+    .infoTotal>p {
+        margin: 0px;
+    }
+}

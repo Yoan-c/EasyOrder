@@ -1,0 +1,65 @@
+{% extends 'templateAdmin.html.twig' %}
+
+{% block title %}Liste des utilisateurs {% endblock %}
+{% block pageTitle %}
+Liste des utilisateurs
+{% endblock %}
+{% block body %}
+
+<div class="row mt-2">
+    {% for user in users %}
+    <div class="card ms-2 mt-2" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{user.nom}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ user.nom}} {{ user.prenom}}</h6>
+            <p class="card-text">date de naissance :
+                {% if user.dateNaissance is defined %}
+                {{user.dateNaissance |date("m/d/Y", "Europe/Paris")}}
+                {% endif %}
+            </p>
+            <p class="card-text">Adresse :
+                {% if user.adresse is defined %}
+                {{user.adresse}}
+                {% endif %}
+            </p>
+            <p class="card-text">Ville :
+                {% if user.ville is defined %}
+                {{user.ville}}
+                {% endif %}
+            </p>
+            <p class="card-text">Code postal :
+                {% if user.codePostal is defined %}
+                {{user.codePostal}}
+                {% endif %}
+            </p>
+            <p class="card-text">Ville :
+                {% if user.ville is defined %}
+                {{user.ville}}
+                {% endif %}
+            </p>
+            <a href="{{ path('app_user_edit', {id: user.id}) }}" class="card-link">Détail</a>
+            <a href="{{ path('app_user_del', {id: user.id}) }}" class="card-link">Supprimer</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% if isPaginated is defined and isPaginated %}
+<div class="row mt-2">
+
+    <nav aria-label="col Page navigation example">
+        <ul class="pagination">
+            {% if page != 1 %} <li class="page-item"><a class="page-link"
+                    href="{{ path('app_user', {page : page-1, nbr: nbr})}}">Précédent</a></li>
+            {% endif %}
+            {% for i in range(1, nbPage) %}
+            <li class="page-item"><a class="page-link" href="{{ path('app_user', {page : i, nbr: nbr})}}">{{i}}</a>
+            </li>
+            {% endfor %}
+            {% if page < nbPage %} <li class="page-item"><a class="page-link"
+                    href="{{ path('app_user', {page : page+1, nbr: nbr})}}">Suivant</a></li>
+                {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endif %}
+{% endblock %}

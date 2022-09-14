@@ -1,0 +1,32 @@
+{% extends 'templateCompte.html.twig' %}
+
+{% block title %}Mes commandes{% endblock %}
+
+{% block pageTitle %}
+Mes commandes
+{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title titreCommande">Commande n &deg; :</h5>
+                <div class="infoCommande">
+                    <p class="card-text dateCommande">date</p>
+                    <p class="card-text montantCommande">montant </p>
+                </div>
+                <a href="#" class="btn btn-primary btnCommande">Voir détails</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

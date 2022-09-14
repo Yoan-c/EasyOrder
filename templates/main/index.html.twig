@@ -1,20 +1,178 @@
-{% extends 'base.html.twig' %}
+{% extends 'template.html.twig' %}
 
 {% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<main class="container">
+    <div class="container">
+        <div class="row justify-content-center justify-content-md-start">
+            {% if produits is defined %}
+            {% for produit in produits %}
+            <div class="containCard"
+                onclick="test( '{{loop.index0}}','{{page}}','{{produit.id}}','{{produit.label}}','{{produit.quantity}}','{{produit.prix}}','{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}')">
+                <div class=" containImg" id="containProduit">
+                    <div id="{{'desc_' ~ loop.index0}}" data-is-user-panier="{{produit.description}}"></div>
+                    <img src="{{ asset('/uploads/produits/') ~ produit.image | defaultImage}}" alt="img produit"
+                        id="imgProduit" />
+                </div>
+                <hr>
+                <div class="infoProduit">
+                    <div class="nomProduct">
+                        {{produit.label}}
+                    </div>
+                    {% if produit.quantity > 0 %}
+                    <div class="stockProd-dispo">
+                        en stock
+                    </div>
+                    {% else %}
+                    <div class="stockProd-indispo">
+                        Indisponible
+                    </div>
+                    {% endif %}
+                    <div class="priceProduct" id="pProduct">
+                        {{produit.prix|number_format(2) }} &euro;
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% if isPaginated is defined and isPaginated %} <div class="row mt-2 paginationProduct  ">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <nav aria-label="col Page navigation example">
+            <ul class="pagination">
+                {% if page != 1 %} <li class="page-item"><a class="page-link stylePagination"
+                        href="{{ path('app_main', {page : page-1, nbr: nbr})}}">Précédent</a></li>
+                {% endif %}
+                {% for i in range(1, nbPage) %}
+                <li class="page-item"><a class="page-link stylePagination"
+                        href="{{ path('app_main', {page : i, nbr: nbr})}}">{{i}}</a>
+                </li>
+                {% endfor %}
+                {% if page < nbPage %} <li class="page-item"><a class="page-link stylePagination"
+                        href="{{ path('app_main', {page : page+1, nbr: nbr})}} ">Suivant</a></li>
+                    {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {% endif %}
+</main>
+<div id="myModal" class="showModal">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/coute/Desktop/Portfolio/EasyOrder/EasyOrder/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/coute/Desktop/Portfolio/EasyOrder/EasyOrder/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="containtModal">
+
+            <div class="imgModal" id="imgModal">
+            </div>
+
+            <div class="labelProductModal" id="labelProductModal"></div>
+            <div class="descProduct scroller" id="descProduct">
+
+            </div>
+            <div class="stockProduct" id="stockProduct"> En stock <span id="stockQty"></span></div>
+            <label for="quantityProduct" class="quantityModal">quantité :</label>
+            <input type="number" id="quantityProduct" name="quantityProduct" class="quantityProduct" min="1" max="100">
+            <span class="priceProduct"> Prix :</span>
+            <div class="priceModal" id="priceModal"> </div>
+            <span class="totalName"> Total :</span>
+            <span id="totalPrice" class="totalPrice"></span>
+        </div>
+        <hr>
+        {% if app.user is not null %}
+        <p id="errorModal"></p>
+        <button type="submit" class="btnModal" id="btnPanier">Mettre au panier</button>
+        {% else %}
+        <button type="submit" class="btnModal" id="connexion">Se connecter</button>
+        {% endif %}
+        <input type="hidden" id="page" />
+        <input type="hidden" id="productID" />
+    </div>
+
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    let modal = document.getElementById("myModal");
+    let imgModal = document.getElementById("imgModal");
+    let containProduit = document.getElementById("containProduit");
+    let quantityProduct = document.getElementById("quantityProduct");
+    let connexion = document.getElementById("connexion");
+    let btnPanier = document.getElementById("btnPanier");
+    let productID = document.getElementById("productID");
+    let page = document.getElementById("page");
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+        modal.style.display = "none";
+
+    }
+    if (connexion)
+        connexion.onclick = () => {
+            document.location = "/login";
+        }
+    let calculTotal = function (e) {
+        let qty = parseInt(quantityProduct.value);
+        let pProduct = document.getElementById("priceModal").textContent;
+
+        let total = parseFloat(qty).toFixed(2) * parseFloat(pProduct).toFixed(2);
+        let totalPrice = document.getElementById("totalPrice");
+        totalPrice.textContent = parseFloat(total).toFixed(2) + "\u20ac"
+    }
+    quantityProduct.onchange = calculTotal
+    if (btnPanier)
+        btnPanier.onclick = () => {
+            let qty = quantityProduct.value;
+            let id = productID.value;
+            let pageNb = page.value;
+            if (qty)
+                document.location = "/panier/add/" + id + "/" + qty + "/" + pageNb;
+            else {
+                let p = document.getElementById("errorModal");
+                p.textContent = "Vérifiez la quantité avant de  mettre au panier";
+            }
+
+        }
+    function test(index, page, id, label, qty, price, url) {
+
+        let labelProductModal = document.getElementById("labelProductModal")
+        let priceModal = document.getElementById("priceModal");
+        let stockProduct = document.getElementById("stockProduct");
+        let descProduct = document.getElementById("descProduct");
+        let idDesc = "#desc_" + index;
+        let descSelector = document.querySelector(idDesc);
+        console.log("desc test ", descSelector.dataset.isUserPanier);
+        let desc = descSelector.dataset.isUserPanier;
+        let totalPrice = document.getElementById("totalPrice");
+        let productID = document.getElementById("productID");
+        let pageId = document.getElementById("page");
+        let img = document.createElement("img");
+
+        productID.value = id;
+        pageId.value = page;
+        imgModal.innerHTML = "";
+        img.src = url;
+        img.alt = "image produit";
+        img.setAttribute('class', "imgModalJs");
+        imgModal.appendChild(img);
+
+        labelProductModal.textContent = label;
+        totalPrice.textContent = parseFloat(price).toFixed(2) + '\u20ac'
+        priceModal.textContent = parseFloat(price).toFixed(2) + '\u20ac';
+        if (parseInt(qty) <= 0) {
+            stockProduct.textContent = "Indisponible";
+            stockProduct.style.color = 'red';
+        }
+        else {
+            let stockQty = document.getElementById("stockQty");
+            stockQty.textContent = qty;
+        }
+        descProduct.innerHTML = '';
+        let p = document.createElement('p');
+        p.textContent = desc;
+        descProduct.appendChild(p);
+        modal.style.display = "block";
+    }
+</script>
 {% endblock %}

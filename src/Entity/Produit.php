@@ -6,6 +6,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -16,31 +17,35 @@ class Produit
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3)]
     private ?string $label = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?float $prix = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?int $quantity = null;
 
-    #[ORM\ManyToMany(targetEntity: Categorie::class, mappedBy: 'produit')]
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'produits')]
+    #[ORM\JoinTable(name: "produit_categorie")]
     private Collection $categories;
 
-    #[ORM\ManyToMany(targetEntity: Commande::class, mappedBy: 'produit')]
-    private Collection $commandes;
-
-    #[ORM\ManyToMany(targetEntity: Panier::class, mappedBy: 'produit')]
-    private Collection $paniers;
 
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->paniers = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,6 +101,19 @@ class Produit
         return $this;
     }
 
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Categorie>
      */
@@ -116,64 +134,13 @@ class Produit
 
     public function removeCategory(Categorie $category): self
     {
-        if ($this->categories->removeElement($category)) {
-            $category->removeProduit($this);
-        }
+        $this->categories->removeElement($category);
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Commande>
-     */
-    public function getCommandes(): Collection
+    public function __toString()
     {
-        return $this->commandes;
-    }
-
-    public function addCommande(Commande $commande): self
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->addProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): self
-    {
-        if ($this->commandes->removeElement($commande)) {
-            $commande->removeProduit($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Panier>
-     */
-    public function getPaniers(): Collection
-    {
-        return $this->paniers;
-    }
-
-    public function addPanier(Panier $panier): self
-    {
-        if (!$this->paniers->contains($panier)) {
-            $this->paniers->add($panier);
-            $panier->addProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removePanier(Panier $panier): self
-    {
-        if ($this->paniers->removeElement($panier)) {
-            $panier->removeProduit($this);
-        }
-
-        return $this;
+        return $this->label;
     }
 }

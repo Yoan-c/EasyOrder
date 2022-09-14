@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\PanierRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PanierRepository::class)]
@@ -15,59 +13,54 @@ class Panier
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(mappedBy: 'panier', cascade: ['persist', 'remove'])]
-    private ?User $user = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $quantity = null;
 
-    #[ORM\ManyToMany(targetEntity: produit::class, inversedBy: 'paniers')]
-    private Collection $produit;
+    #[ORM\ManyToOne(inversedBy: 'paniers')]
+    private ?User $idUser = null;
 
-    public function __construct()
-    {
-        $this->produit = new ArrayCollection();
-    }
+    #[ORM\ManyToOne]
+    private ?Produit $idProduct = null;
+
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getQuantity(): ?int
     {
-        return $this->user;
+        return $this->quantity;
     }
 
-    public function setUser(User $user): self
+    public function setQuantity(?int $quantity): self
     {
-        // set the owning side of the relation if necessary
-        if ($user->getPanier() !== $this) {
-            $user->setPanier($this);
-        }
-
-        $this->user = $user;
+        $this->quantity = $quantity;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, produit>
-     */
-    public function getProduit(): Collection
+    public function getIdUser(): ?User
     {
-        return $this->produit;
+        return $this->idUser;
     }
 
-    public function addProduit(produit $produit): self
+    public function setIdUser(?User $idUser): self
     {
-        if (!$this->produit->contains($produit)) {
-            $this->produit->add($produit);
-        }
+        $this->idUser = $idUser;
 
         return $this;
     }
 
-    public function removeProduit(produit $produit): self
+    public function getIdProduct(): ?Produit
     {
-        $this->produit->removeElement($produit);
+        return $this->idProduct;
+    }
+
+    public function setIdProduct(?Produit $idProduct): self
+    {
+        $this->idProduct = $idProduct;
 
         return $this;
     }

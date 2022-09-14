@@ -1,0 +1,14 @@
+{% extends 'templateAdmin.html.twig'%}
+{% block pageTitle %}
+Ajouter une catégorie
+{% endblock %}
+{% block body %}
+{{ form_start(formCategorie) }}
+
+
+{{ form_rest(formCategorie) }}
+
+{% endblock %}
+{% block javascripts %}
+<script> $(document).ready(function () { $('.select2').select2(); }); </script>
+{% endblock %}

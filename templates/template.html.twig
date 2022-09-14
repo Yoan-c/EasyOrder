@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{asset('assets/css/normalize.css')}}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="{{asset('assets/css/styles.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/css/styles-responsive.css')}}" rel="stylesheet" />
+    <link href="{{asset('node_modules/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="#"> <img src="{{asset('assets/images/logo_blanc.png')}}" alt="imgLogo" class="imgLogo" />
+            </a>
+        </div>
+        <div class="bgSearch">
+            <form action="{{path('app_main_search')}}" method="GET" id="formGetProduct">
+                <select class="selectCategorie" name="categorie" id="idCategorie">
+                    <option value="">Categorie</option>
+                    {% if categories is defined %}
+                    {% for categorie in categories %}
+                    <option value="{{categorie.nom}}">{{categorie.nom}}</option>
+                    {% endfor %}
+                    {% endif %}
+                </select>
+                <input class="search" type="text" name="search" placeholder="Rechercher" />
+                <img src="{{asset('assets/images/search_arrow.png')}}" alt="fleche rechercher" id="arrowSearch"
+                    class="arrowSearch">
+            </form>
+        </div>
+        <div class="actionHeader-userMenu">
+            {% if app.user is not null %}
+            <div class="infoUser">
+                <a href="{{ path('app_commande') }}">
+                    Bienvenue {{ app.user.email }}
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="menu">
+            <img class="imgMenu" id="imgMenu" src="{{asset('assets/images/menu-responsive.png')}}" alt="image menu" />
+            <div class="actionHeader " id="actionHeader">
+                <div class="actionHeader-user">
+                    {% if app.user is not null %}
+                    <div class="infoUser">
+                        <a href="{{ path('app_commande') }}">
+                            Bienvenue {{ app.user.email }}
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="actionHeader-site">
+
+
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+                    <div class="btnMenuStyle">
+                        <a href="{{ path('app_panier') }}">Voir panier
+                            {% if nbArticle is defined %}
+                            ({{nbArticle}})
+                            {% endif %}</a>
+                    </div>
+                    <div class="btnMenuStyle">
+                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                    </div>
+
+                    {% else %}
+                    <div class="btnMenuStyle">
+                        <a href="{{ path('app_register') }}">S'inscrire</a>
+                    </div>
+                    <div class="btnMenuStyle">
+                        <a href="{{ path('app_login') }}">Se connecter</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </header>
+    {% for message in app.session.flashbag.get('info') %}
+    <div class="alert alert-info">
+        {{message}}
+    </div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('success') %}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('error') %}
+    <div class="alert alert-danger">
+        {{message}}
+    </div>
+
+    {% endfor %}
+    {% block body %}
+
+    {% endblock %}
+    <script>
+        let imgMenu = document.getElementById("imgMenu");
+        let actionHeader = document.getElementById("actionHeader");
+        let arrowSearch = document.getElementById("arrowSearch");
+        let formGetProduct = document.getElementById("formGetProduct");
+        arrowSearch.onclick = () => {
+            formGetProduct.submit();
+        }
+        imgMenu.onclick = () => {
+            let classes = "actionHeader ";
+            if (actionHeader.className.includes("slide-in")) {
+                actionHeader.setAttribute('class', classes + "slide-out");
+            }
+            else {
+                actionHeader.setAttribute('class', classes + "slide-in");
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="{{asset('node_modules/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{asset('node_modules/select2/dist/js/select2.min.js')}}"></script>
+
+    {% block javascripts %}
+    {% endblock %}
+
+</body>
+
+</html>

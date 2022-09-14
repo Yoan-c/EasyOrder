@@ -1,0 +1,58 @@
+{% extends 'templateAdmin.html.twig'%}
+{% block pageTitle %}
+Ajouter un produit
+{% endblock %}
+{% block body %}
+{{ form_start(formProduct) }}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            {{ form_row(formProduct.label, {'label' : 'Nom'})}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-2">
+            {{ form_row(formProduct.prix)}}
+        </div>
+        <div class="col-2">
+            {{ form_row(formProduct.quantity, {'label' : 'quantité'})}}
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-3"></div>
+        <div class="col-6">
+            Catégorie(s)
+            {{ form_widget(formProduct.categories)}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            {{form_label(formProduct.image)}} : {{ produitImg }}
+            {{ form_widget(formProduct.image)}}
+
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-3"></div>
+        <div class="form-floating col-6">
+            {{ form_widget(formProduct.description)}}
+            <label for="produit_descritpion">Description</label>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-3"></div>
+        <div class="col">
+            {{ form_row(formProduct.editer)}}
+        </div>
+    </div>
+</div>
+{{ form_rest(formProduct) }}
+
+{% endblock %}
+{% block javascripts %}
+<script> $(document).ready(function () { $('.select2').select2(); }); </script>
+{% endblock %}
