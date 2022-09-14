@@ -12934,3 +12934,7 @@ body {
 #errorMsg {
   display: none;
 }
+
+.sideFooter {
+  height: 64px;
+}

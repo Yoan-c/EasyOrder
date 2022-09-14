@@ -30,6 +30,8 @@
                 {% endif %}
             </select>
             <input class="search" type="text" name="search" placeholder="Rechercher" />
+            <img src="{{asset('assets/images/search_arrow.png')}}" alt="fleche rechercher" id="arrowSearch"
+                class="arrowSearch">
         </div>
         <div class="actionHeader-userMenu">
             {% if app.user is not null %}
@@ -41,7 +43,11 @@
             <div class="actionHeader " id="actionHeader">
                 <div class="actionHeader-user">
                     {% if app.user is not null %}
-                    <div class="infoUser">Bienvenue {{ app.user.email }}</div>
+                    <div class="infoUser">
+                        <a href="{{ path('app_commande') }}">
+                            Bienvenue {{ app.user.email }}
+                        </a>
+                    </div>
                     {% endif %}
                 </div>
                 <div class="actionHeader-site">

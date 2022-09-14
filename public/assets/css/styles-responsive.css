@@ -99,7 +99,6 @@
 @media screen and (min-width: 701px) {
 
     body {
-        background: red;
         font-size: 12px;
     }
 
@@ -114,7 +113,7 @@
 
     .bgSearch {
         margin-top: 54px;
-        width: 350px;
+        /*  width: 350px;*/
         border-radius: 0 5px 5px 0;
         height: 22px;
         justify-self: center;
@@ -151,9 +150,7 @@
 }
 
 @media screen and (min-width: 1000px) {
-    body {
-        background: green;
-    }
+
 
     /*
         header
@@ -276,11 +273,3 @@
         margin: 0px;
     }
 }
-
-@media screen and (min-width: 1024px) {
-    body {
-        background: green;
-    }
-}
-
-@media screen and (min-width: 1280px) {}

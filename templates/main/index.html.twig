@@ -5,7 +5,7 @@
 {% block body %}
 <main class="container">
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center justify-content-md-start">
             {% if produits is defined %}
             {% for produit in produits %}
             <div class="containCard"
@@ -70,7 +70,7 @@
             <div class="descProduct scroller" id="descProduct">
 
             </div>
-            <div class="stockProduct" id="stockProduct"> En stock</div>
+            <div class="stockProduct" id="stockProduct"> En stock <span id="stockQty"></span></div>
             <label for="quantityProduct" class="quantityModal">quantité :</label>
             <input type="number" id="quantityProduct" name="quantityProduct" class="quantityProduct" min="1" max="100">
             <span class="priceProduct"> Prix :</span>
@@ -156,9 +156,14 @@
         labelProductModal.textContent = label;
         totalPrice.textContent = price + '\u20ac'
         priceModal.textContent = price + '\u20ac';
+        console.log("qty " + qty);
         if (parseInt(qty) <= 0) {
             stockProduct.textContent = "Indisponible";
             stockProduct.style.color = 'red';
+        }
+        else {
+            let stockQty = document.getElementById("stockQty");
+            stockQty.textContent = qty;
         }
         descProduct.innerHTML = '';
         let p = document.createElement('p');
