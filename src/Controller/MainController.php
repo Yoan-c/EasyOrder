@@ -34,6 +34,9 @@ class MainController extends AbstractController
         if (!$categorieSearch && !$productSearch) {
             return $this->redirectToRoute('app_main');
         }
+        if (!(is_numeric($page) && is_numeric($nbr))) {
+            return $this->redirectToRoute('app_main');
+        }
         $isPaginated = true;
         $categorieSearch = "%" . $categorieSearch . "%";
         $productSearch = "%" . $productSearch . "%";
@@ -60,6 +63,9 @@ class MainController extends AbstractController
     #[Route('/product/{page?1}/{nbr?12}', name: 'app_main')]
     public function index(ManagerRegistry $doctrine, $page, $nbr): Response
     {
+        if (!(is_numeric($page) && is_numeric($nbr))) {
+            return $this->redirectToRoute('app_main');
+        }
         $isPaginated = true;
         $productRepository = $doctrine->getRepository(Produit::class);
         $nbProduct = $productRepository->count([]);

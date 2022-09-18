@@ -38,7 +38,9 @@ class PanierController extends AbstractController
     #[Route('/add/{idProduct?0}/{qty?1}/{page?1}', name: 'app_panier_add')]
     public function index($idProduct, $qty, $page): Response
     {
-
+        if (!(is_numeric($idProduct) && is_numeric($qty) && is_numeric($page))) {
+            return $this->redirectToRoute('app_main');
+        }
         if (!($this->getUser())) {
             $this->addFlash("error", "veuillez vous connecter pour acceder à cette page");
             return $this->redirectToRoute("app_main");

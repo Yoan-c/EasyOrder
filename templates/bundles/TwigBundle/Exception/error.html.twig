@@ -1,0 +1,15 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'template.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row mt-4">
+        <h1>Une erreur est survenue</h1>
+
+        <p>
+            Une erreur innatendu s'est produite, pour retourner au site
+            cliquez <a href="{{ path('app_main') }}">ici</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

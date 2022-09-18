@@ -36,6 +36,9 @@ class ProduitController extends AbstractController
     ]
     public function getAllProduct(ManagerRegistry $doctrine, $page, $nbr): Response
     {
+        if (!(is_numeric($nbr) && is_numeric($page))) {
+            return $this->redirectToRoute('app_admin');
+        }
         $isPaginated = true;
         $productRepository = $doctrine->getRepository(Produit::class);
         $tabProduits = $productRepository->findAll();

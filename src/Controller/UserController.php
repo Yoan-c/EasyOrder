@@ -20,6 +20,9 @@ class UserController extends AbstractController
     #[Route('/user/{page?1}/{nbr?12}', name: 'app_user')]
     public function index(ManagerRegistry $doctrine, $page, $nbr): Response
     {
+        if (!(is_numeric($nbr) && is_numeric($page))) {
+            return $this->redirectToRoute('app_admin');
+        }
         $userRepository = $doctrine->getRepository(User::class);
         $nbPersonne = $userRepository->count([]);
         $nbPage = ceil($nbPersonne / $nbr);
