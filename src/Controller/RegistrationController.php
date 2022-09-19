@@ -43,10 +43,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $panier = new Panier();
-            $panier->setIdUser($user->getId());
-            $entityManager->persist($panier);
-            $user->addPanier($panier);
+        
 
             $entityManager->persist($user);
             $entityManager->flush();
